@@ -10,6 +10,10 @@ export interface Plan {
   days: number | null;
   period: string;
   note: string;
+  /** Plan the perks build on ("Mọi thứ trong gói …"). */
+  includes: string;
+  perks: string[];
+  badge?: string;
 }
 
 /**
@@ -17,9 +21,54 @@ export interface Plan {
  * and that site's SePay webhook auto-matches code-less transfers to its pending orders by exact amount.
  */
 export const PLANS: Plan[] = [
-  { id: "pro-month", tag: "P", name: "Pro tháng", price: 149_900, days: 31, period: "/tháng", note: "Linh hoạt, không tự gia hạn" },
-  { id: "pro-year", tag: "Y", name: "Pro năm", price: 1_249_000, days: 366, period: "/năm", note: "≈ 104.000đ/tháng, tiết kiệm 30%" },
-  { id: "founder", tag: "F", name: "Sáng lập", price: 1_999_000, days: null, period: "trọn đời", note: "Chỉ 100 suất đầu tiên" },
+  {
+    id: "pro-month",
+    tag: "P",
+    name: "Pro tháng",
+    price: 149_900,
+    days: 31,
+    period: "/tháng",
+    note: "Linh hoạt, không tự gia hạn",
+    includes: "Mọi thứ trong gói Miễn phí",
+    perks: [
+      "Nhập và xuất bảng số liệu (Excel, Google Sheets)",
+      "Xuất báo cáo PDF gửi đối tác, nhà đầu tư",
+      "Hỗ trợ qua Zalo trong giờ hành chính",
+    ],
+  },
+  {
+    id: "pro-year",
+    tag: "Y",
+    name: "Pro năm",
+    price: 1_249_000,
+    days: 366,
+    period: "/năm",
+    note: "≈ 104.000đ/tháng, rẻ hơn trả tháng 549.000đ",
+    includes: "Mọi thứ trong Pro tháng",
+    perks: [
+      "1 buổi 1:1 với huấn luyện viên mỗi quý (30 phút): cùng bạn soi một quyết định thật",
+      "Hỗ trợ Zalo ưu tiên, trả lời trong 4 giờ",
+      "Được dùng trước các công cụ mới",
+    ],
+    badge: "Phổ biến nhất",
+  },
+  {
+    id: "founder",
+    tag: "F",
+    name: "Sáng lập",
+    price: 1_999_000,
+    days: null,
+    period: "trọn đời",
+    note: "Bằng 16 tháng Pro, dùng mãi mãi",
+    includes: "Mọi thứ trong Pro năm",
+    perks: [
+      "Huấn luyện viên 1:1 mỗi tháng (30 phút) trong 12 tháng đầu",
+      "Nhóm Zalo riêng của 100 thành viên sáng lập",
+      "Mọi công cụ ra sau này, trọn đời không trả thêm",
+      "Giá giữ nguyên mãi mãi, không phí gia hạn",
+    ],
+    badge: "Chỉ 100 suất",
+  },
 ];
 
 export const findPlan = (id: string | null | undefined) => PLANS.find((p) => p.id === id);
@@ -31,11 +80,4 @@ export const FREE_FEATURES = [
   "Cả 3 công cụ: Tiếc tiền, Báo cáo đánh lừa, Bỏ cuộc quá sớm",
   "Dữ liệu mẫu theo ngành",
   "Nhập tay không giới hạn",
-];
-
-export const PRO_FEATURES = [
-  "Nhập và xuất bảng số liệu (Excel, Google Sheets)",
-  "Xuất báo cáo PDF để gửi đối tác, nhà đầu tư",
-  "Được dùng trước các công cụ và mẫu mới",
-  "Hỗ trợ trực tiếp qua Zalo",
 ];
