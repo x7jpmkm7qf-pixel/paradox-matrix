@@ -6,6 +6,7 @@ import { BayesEngine } from "@/components/bayes/BayesEngine";
 import { SimpsonAudit } from "@/components/simpson/SimpsonAudit";
 import { ExponentialSimulator } from "@/components/exponential/ExponentialSimulator";
 import { MODULES, type ModuleId } from "@/lib/modules";
+import { ProButton } from "@/components/pro/ProButton";
 
 const isModuleId = (v: string): v is ModuleId => MODULES.some((m) => m.id === v);
 
@@ -32,13 +33,23 @@ export function Dashboard() {
 
   return (
     <div className="space-y-8">
-      <ModuleNav active={active} onSelect={select} />
+      <div className="print:hidden">
+        <ModuleNav active={active} onSelect={select} />
+      </div>
 
       <div>
-        <div className="mb-5">
-          <p className="font-mono text-xs text-accent-600">Module {meta.index}</p>
-          <h2 className="mt-1 text-xl font-semibold tracking-tight text-ink-900 sm:text-2xl">{meta.name}</h2>
-          <p className="mt-1 max-w-3xl text-sm text-ink-500">{meta.description}</p>
+        <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="hidden text-xs text-ink-500 print:block">Báo cáo The Paradox Matrix · {new Date().toLocaleDateString("vi-VN")}</p>
+            <p className="font-mono text-xs text-accent-600">Module {meta.index}</p>
+            <h2 className="mt-1 text-xl font-semibold tracking-tight text-ink-900 sm:text-2xl">{meta.name}</h2>
+            <p className="mt-1 max-w-3xl text-sm text-ink-500">{meta.description}</p>
+          </div>
+          <div className="print:hidden">
+            <ProButton feature="Xuất báo cáo PDF" onClick={() => window.print()}>
+              Xuất báo cáo PDF
+            </ProButton>
+          </div>
         </div>
         {active === "bayes" && <BayesEngine />}
         {active === "simpson" && <SimpsonAudit />}
