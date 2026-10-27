@@ -38,7 +38,7 @@ export function ExponentialSimulator() {
     <div className="space-y-6">
       <Card
         title="Thiết lập kịch bản"
-        subtitle="So sánh tăng trưởng lũy kế y = a^x với kỳ vọng tuyến tính mà phần lớn mọi người ngầm đặt ra."
+        subtitle="Kết quả thật thường tăng rất chậm rồi bật lên rất nhanh, không đều đều như ta vẫn mong. Nhập số của bạn để xem bao giờ bật."
         actions={
           <Segmented
             ariaLabel="Kịch bản mẫu"
@@ -49,9 +49,15 @@ export function ExponentialSimulator() {
         }
       >
         <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2 xl:grid-cols-5">
-          <NumberField label="Giá trị ban đầu" value={inputs.start} onChange={(v) => set({ start: Math.max(0.0001, v) })} step={1} hint={preset.unit} />
+          <NumberField
+            label="Con số hiện tại"
+            value={inputs.start}
+            onChange={(v) => set({ start: Math.max(0.0001, v) })}
+            step={1}
+            hint={preset.unit}
+          />
           <Slider
-            label={`Tăng trưởng lũy kế / ${preset.periodLabel}`}
+            label={`Tốc độ tăng mỗi ${preset.periodLabel}`}
             value={inputs.rate}
             min={0.001}
             max={0.3}
@@ -60,14 +66,14 @@ export function ExponentialSimulator() {
             onChange={(v) => set({ rate: v })}
           />
           <NumberField
-            label={`Kỳ vọng tuyến tính / ${preset.periodLabel}`}
+            label={`Bạn mong tăng thêm mỗi ${preset.periodLabel}`}
             value={inputs.linearStep}
             onChange={(v) => set({ linearStep: v })}
             step={inputs.start < 10 ? 0.01 : 1}
-            hint="Mức tăng cố định bạn mong đợi mỗi kỳ."
+            hint="Mức tăng đều đều bạn đang kỳ vọng."
           />
           <Slider
-            label={`Số ${preset.periodLabel}`}
+            label={`Xem trước bao nhiêu ${preset.periodLabel}`}
             value={inputs.periods}
             min={10}
             max={preset.inputs.periods * 2}
@@ -95,8 +101,8 @@ export function ExponentialSimulator() {
               value={logScale ? "log" : "linear"}
               onChange={(v) => setLogScale(v === "log")}
               options={[
-                { value: "linear", label: "Thang tuyến tính" },
-                { value: "log", label: "Thang log" },
+                { value: "linear", label: "Xem bình thường" },
+                { value: "log", label: "Phóng to đoạn đầu" },
               ]}
             />
             <Segmented
@@ -104,8 +110,8 @@ export function ExponentialSimulator() {
               value={showDecline ? "on" : "off"}
               onChange={(v) => setShowDecline(v === "on")}
               options={[
-                { value: "off", label: "Ẩn tệ đi" },
-                { value: "on", label: `Tệ đi ${pct(inputs.rate, 1)}` },
+                { value: "off", label: "Ẩn kịch bản xấu" },
+                { value: "on", label: `Nếu giảm ${pct(inputs.rate, 1)} mỗi kỳ` },
               ]}
             />
           </>

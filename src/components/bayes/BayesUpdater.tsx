@@ -38,23 +38,23 @@ export function BayesUpdater({ inputs, onChange }: BayesUpdaterProps) {
 
   return (
     <Card
-      title="Cập nhật niềm tin theo định lý Bayes"
-      subtitle="Một tín hiệu tốt chưa chắc là dự án tốt. Hãy tính xác suất thật sau khi thấy bằng chứng."
+      title="Bước 1 · Cơ hội thành công thật là bao nhiêu?"
+      subtitle="Khách khen, vài con số đầu đẹp chưa chắc là việc này sẽ thành. Kéo 3 thanh dưới đây, không chắc thì cứ để mặc định."
     >
       <div className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         <div className="space-y-5">
           <Slider
-            label="Tỷ lệ nền: dự án loại này thành công"
+            label="Thông thường, bao nhiêu % việc kiểu này có lãi?"
             value={inputs.prior}
             min={0.01}
             max={0.99}
             step={0.01}
             format={(v) => pct(v, 0)}
             onChange={(v) => set({ prior: v })}
-            hint="Tỷ lệ thành công trung bình của những dự án tương tự trong ngành (base rate)."
+            hint="Ví dụ: 10 shop mở kênh bán mới thì khoảng mấy shop có lãi. Không rõ thì để 20%."
           />
           <Slider
-            label="Độ nhạy: dự án tốt cho tín hiệu tốt"
+            label="Nếu việc này thật sự tốt, bao nhiêu % bạn thấy dấu hiệu tốt?"
             value={inputs.sensitivity}
             min={0.01}
             max={0.99}
@@ -64,7 +64,7 @@ export function BayesUpdater({ inputs, onChange }: BayesUpdaterProps) {
             hint="VD: khi sản phẩm thực sự phù hợp thị trường, khảo sát khách hàng tích cực bao nhiêu % trường hợp?"
           />
           <Slider
-            label="Báo động giả: dự án dở vẫn cho tín hiệu tốt"
+            label="Nếu việc này thật ra dở, bao nhiêu % vẫn có dấu hiệu tốt?"
             value={inputs.falsePositive}
             min={0.01}
             max={0.99}
@@ -89,22 +89,22 @@ export function BayesUpdater({ inputs, onChange }: BayesUpdaterProps) {
 
         <div className="space-y-5">
           <div className="grid gap-3 sm:grid-cols-3">
-            <Stat label="Trước bằng chứng" value={pct(inputs.prior)} caption="Xác suất tiên nghiệm" />
+            <Stat label="Lúc mới bắt đầu" value={pct(inputs.prior)} caption="Cơ hội có lãi ban đầu" />
             <Stat
-              label="Sau bằng chứng"
+              label="Sau khi thấy dấu hiệu"
               value={pct(result.posterior)}
               caption={`${shift >= 0 ? "+" : ""}${(shift * 100).toFixed(1).replace(".", ",")} điểm %`}
               emphasis
             />
             <Stat
-              label="Hệ số khả năng"
+              label="Dấu hiệu mạnh cỡ nào"
               value={Number.isFinite(result.likelihoodRatio) ? `×${result.likelihoodRatio.toFixed(2).replace(".", ",")}` : "∞"}
-              caption="Bằng chứng mạnh cỡ nào"
+              caption="Càng lớn càng đáng tin"
             />
           </div>
 
           <div className="rounded-xl border border-ink-200 p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-ink-500">Diễn giải bằng tần suất tự nhiên</p>
+            <p className="text-xs font-medium uppercase tracking-wide text-ink-500">Nói cho dễ hình dung</p>
             <p className="mt-2 text-sm leading-relaxed text-ink-700">
               Trong <b>{num(freq.population)}</b> dự án giống của bạn, <b>{num(freq.successes)}</b> sẽ thành công. Có{" "}
               <b>{num(evidenceCount)}</b> dự án cho ra {inputs.signalObserved ? "tín hiệu tích cực" : "tín hiệu tiêu cực"} như bạn thấy,
@@ -117,7 +117,7 @@ export function BayesUpdater({ inputs, onChange }: BayesUpdaterProps) {
           <div>
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
               <p className="text-sm font-medium text-ink-700">
-                Mô phỏng Monte Carlo: <span className="font-mono">{pct(simulated)}</span>
+                Máy thử lại nhiều lần: <span className="font-mono">{pct(simulated)}</span>
               </p>
               <div className="flex items-center gap-2">
                 <Segmented ariaLabel="Số lần mô phỏng" value={trials} onChange={setTrials} options={TRIAL_OPTIONS} />
@@ -133,10 +133,17 @@ export function BayesUpdater({ inputs, onChange }: BayesUpdaterProps) {
                   <Tooltip
                     {...tooltipStyle}
                     labelFormatter={(v) => `${num(Number(v))} dự án mô phỏng`}
-                    formatter={(v: number, name) => [pct(v), name === "exact" ? "Công thức Bayes" : "Mô phỏng"]}
+                    formatter={(v: number, name) => [pct(v), name === "exact" ? "Tính bằng công thức" : "Mô phỏng"]}
                   />
                   <Line type="monotone" dataKey="exact" stroke={chartColors.muted} strokeDasharray="4 4" dot={false} strokeWidth={1.5} />
-                  <Line type="monotone" dataKey="estimate" stroke={chartColors.primary} dot={false} strokeWidth={2} isAnimationActive={false} />
+                  <Line
+                    type="monotone"
+                    dataKey="estimate"
+                    stroke={chartColors.primary}
+                    dot={false}
+                    strokeWidth={2}
+                    isAnimationActive={false}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>

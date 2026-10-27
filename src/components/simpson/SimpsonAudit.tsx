@@ -34,8 +34,8 @@ export function SimpsonAudit() {
   return (
     <div className="space-y-6">
       <Card
-        title="Dữ liệu phân khúc"
-        subtitle="So sánh hai nhóm (đội, kênh, sản phẩm, chính sách giá) theo từng phân khúc. Sửa trực tiếp, dán hoặc tải CSV."
+        title="Nhập số liệu của bạn"
+        subtitle="So sánh 2 đội, 2 kênh hay 2 sản phẩm, tách theo từng nhóm khách. Bấm vào ô để sửa số, hoặc chọn một ví dụ có sẵn bên phải."
         actions={
           <Segmented
             ariaLabel="Bộ dữ liệu mẫu"
@@ -57,10 +57,13 @@ export function SimpsonAudit() {
       </Card>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <Card title={`${metric}: từng phân khúc vs tổng hợp`} subtitle="Nếu cột tổng hợp đảo chiều so với các phân khúc, bạn đang thấy nghịch lý Simpson.">
+        <Card
+          title={`${metric}: từng nhóm khách so với con số tổng`}
+          subtitle="Nếu cột Tổng ngược chiều với các nhóm khách, con số tổng đang đánh lừa bạn."
+        >
           <RateComparisonChart report={report} labelA={labelA || "A"} labelB={labelB || "B"} />
         </Card>
-        <Card title="Kết quả kiểm toán">
+        <Card title="Kết quả">
           <AuditFindings report={report} labelA={labelA || "A"} labelB={labelB || "B"} metric={metric || "Tỷ lệ"} />
         </Card>
       </div>

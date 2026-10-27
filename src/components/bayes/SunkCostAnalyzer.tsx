@@ -27,26 +27,40 @@ export function SunkCostAnalyzer({ posterior }: SunkCostAnalyzerProps) {
   const chartData = [
     { name: "Tiếp tục", value: decision.evContinue, key: "continue" },
     { name: "Dừng & chuyển hướng", value: decision.evStop, key: "stop" },
-    { name: "Dừng (góc nhìn bị chi phí chìm)", value: decision.biasedEvStop, key: "biased" },
+    { name: "Dừng (nếu cứ tiếc tiền đã chi)", value: decision.biasedEvStop, key: "biased" },
   ];
 
   return (
     <Card
-      title="Kiểm tra bẫy chi phí chìm"
-      subtitle={`So sánh giá trị kỳ vọng hướng tới tương lai, dùng xác suất sau cập nhật: ${pct(posterior)}. Đơn vị: triệu đồng.`}
+      title="Bước 2 · Nên chi tiếp hay dừng?"
+      subtitle={`Nhập số tiền thật của bạn, đơn vị triệu đồng. Cơ hội thành công lấy từ Bước 1: ${pct(posterior)}.`}
     >
       <div className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         <div className="grid grid-cols-2 content-start gap-4">
-          <NumberField label="Đã chi (chi phí chìm)" value={sunkCost} onChange={setSunkCost} suffix="tr" step={10} hint="Không lấy lại được." />
-          <NumberField label="Cần chi thêm" value={remainingCost} onChange={setRemainingCost} suffix="tr" step={10} hint="Để hoàn thành dự án." />
+          <NumberField
+            label="Đã chi"
+            value={sunkCost}
+            onChange={setSunkCost}
+            suffix="tr"
+            step={10}
+            hint="Dừng hay chạy cũng không lấy lại được."
+          />
+          <NumberField
+            label="Cần chi thêm"
+            value={remainingCost}
+            onChange={setRemainingCost}
+            suffix="tr"
+            step={10}
+            hint="Để hoàn thành dự án."
+          />
           <NumberField label="Lợi nhuận nếu thành công" value={payoff} onChange={setPayoff} suffix="tr" step={10} />
           <NumberField
-            label="Phương án thay thế tốt nhất"
+            label="Nếu dồn tiền sang việc khác, lời được"
             value={alternativeValue}
             onChange={setAlternativeValue}
             suffix="tr"
             step={10}
-            hint="Chi phí cơ hội: lãi ròng nếu dồn tiền, thời gian sang việc khác."
+            hint="Số tiền lời bạn kiếm được nếu dừng việc này và làm việc khác."
           />
         </div>
 
@@ -81,8 +95,8 @@ export function SunkCostAnalyzer({ posterior }: SunkCostAnalyzerProps) {
 
           <p className="text-xs leading-relaxed text-ink-500">
             Ngưỡng hòa vốn: dự án cần xác suất thành công tối thiểu{" "}
-            <b className="font-mono text-ink-700">{pct(Math.min(1, Math.max(0, decision.breakEvenProbability)))}</b> mới đáng
-            để tiếp tục. Khoản {money(sunkCost)} đã chi không xuất hiện trong phép tính này, vì nó giống nhau ở mọi lựa chọn.
+            <b className="font-mono text-ink-700">{pct(Math.min(1, Math.max(0, decision.breakEvenProbability)))}</b> mới đáng để tiếp tục.
+            Khoản {money(sunkCost)} đã chi không xuất hiện trong phép tính này, vì nó giống nhau ở mọi lựa chọn.
           </p>
         </div>
       </div>
@@ -102,17 +116,17 @@ function VerdictAlert({ verdict, evContinue, evStop, sunkCost, remainingCost }: 
   if (verdict === "continue") {
     return (
       <Alert tone="success" title="Tiếp tục là lựa chọn hợp lý">
-        Giá trị kỳ vọng nếu đi tiếp ({money(evContinue)}) cao hơn phương án thay thế ({money(evStop)}), kể cả khi bỏ qua số tiền đã
+        Số tiền dự kiến thu về nếu đi tiếp ({money(evContinue)}) cao hơn phương án thay thế ({money(evStop)}), kể cả khi bỏ qua số tiền đã
         chi.
       </Alert>
     );
   }
   if (verdict === "sunk-cost-trap") {
     return (
-      <Alert tone="danger" title="Cảnh báo: bạn đang ở vùng bẫy chi phí chìm">
-        Nhìn về tương lai, dừng lại tốt hơn {money(evStop - evContinue)}. Lý do duy nhất khiến &quot;tiếp tục&quot; có vẻ hấp dẫn là
-        cảm giác mất trắng {money(sunkCost)} đã bỏ ra. Số tiền đó đã mất dù bạn chọn gì. Hãy tự hỏi: nếu hôm nay mới bắt đầu, tôi có
-        rót thêm {money(remainingCost)} vào dự án này không?
+      <Alert tone="danger" title="Cảnh báo: bạn đang chạy tiếp chỉ vì tiếc tiền">
+        Nhìn về tương lai, dừng lại tốt hơn {money(evStop - evContinue)}. Lý do duy nhất khiến &quot;tiếp tục&quot; có vẻ hấp dẫn là cảm
+        giác mất trắng {money(sunkCost)} đã bỏ ra. Số tiền đó đã mất dù bạn chọn gì. Hãy tự hỏi: nếu hôm nay mới bắt đầu, tôi có rót thêm{" "}
+        {money(remainingCost)} vào dự án này không?
       </Alert>
     );
   }

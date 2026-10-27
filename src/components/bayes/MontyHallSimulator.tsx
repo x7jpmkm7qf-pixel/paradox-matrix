@@ -22,7 +22,7 @@ export function MontyHallSimulator() {
 
   return (
     <Card
-      title="Bài học Monty Hall: dám đổi lựa chọn khi có thông tin mới"
+      title="Bài học thêm (không bắt buộc): dám đổi hướng khi có thông tin mới"
       subtitle="Bạn chọn 1 cửa. Người dẫn chương trình (biết đáp án) mở hết các cửa trống còn lại, chỉ chừa 1 cửa. Giữ hay đổi?"
       actions={<Button onClick={() => setSeed(newSeed())}>Chạy lại</Button>}
     >
@@ -36,14 +36,14 @@ export function MontyHallSimulator() {
             onChange={setDoors}
             hint="Hãy nghĩ mỗi cửa là một chiến lược. Thị trường loại dần các phương án sai, để lại một lựa chọn khác."
           />
-          <Slider label="Số lượt chơi mô phỏng" value={games} min={100} max={20000} step={100} onChange={setGames} format={num} />
+          <Slider label="Số lần cho máy chơi thử" value={games} min={100} max={20000} step={100} onChange={setGames} format={num} />
           <div className="grid grid-cols-2 gap-3">
             <Stat label="Giữ nguyên" value={pct(stayRate)} caption={`Lý thuyết: ${pct(1 / doors)}`} />
             <Stat label="Đổi lựa chọn" value={pct(switchRate)} caption={`Lý thuyết: ${pct(1 - 1 / doors)}`} emphasis />
           </div>
           <p className="text-sm leading-relaxed text-ink-600">
-            Với {doors} cửa, đổi lựa chọn thắng gấp <b className="font-mono text-ink-900">{(doors - 1).toString()}</b> lần giữ nguyên.
-            Lựa chọn ban đầu được đưa ra khi bạn biết ít nhất; thông tin mới không làm nó đúng hơn. Trong kinh doanh, &quot;trung thành&quot;
+            Với {doors} cửa, đổi lựa chọn thắng gấp <b className="font-mono text-ink-900">{(doors - 1).toString()}</b> lần giữ nguyên. Lựa
+            chọn ban đầu được đưa ra khi bạn biết ít nhất; thông tin mới không làm nó đúng hơn. Trong kinh doanh, &quot;trung thành&quot;
             với kế hoạch cũ chỉ vì đó là kế hoạch của mình là một cái bẫy.
           </p>
         </div>

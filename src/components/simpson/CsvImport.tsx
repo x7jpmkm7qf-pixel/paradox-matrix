@@ -47,14 +47,14 @@ export function CsvImport({ rows, onImport }: CsvImportProps) {
   return (
     <div>
       <div className="flex flex-wrap gap-2">
-        <ProButton feature="Dán CSV" onClick={() => setOpen((o) => !o)}>
-          {open ? "Đóng nhập liệu" : "Dán CSV"}
+        <ProButton feature="Dán từ Excel" onClick={() => setOpen((o) => !o)}>
+          {open ? "Đóng nhập liệu" : "Dán từ Excel"}
         </ProButton>
-        <ProButton feature="Tải file CSV" onClick={() => fileRef.current?.click()}>
-          Tải file CSV
+        <ProButton feature="Tải file Excel (CSV)" onClick={() => fileRef.current?.click()}>
+          Tải file Excel (CSV)
         </ProButton>
-        <ProButton feature="Xuất CSV" onClick={download}>
-          Xuất CSV
+        <ProButton feature="Xuất ra Excel" onClick={download}>
+          Xuất ra Excel
         </ProButton>
         <input
           ref={fileRef}
@@ -77,7 +77,9 @@ export function CsvImport({ rows, onImport }: CsvImportProps) {
             onChange={(e) => setText(e.target.value)}
           />
           <div className="flex items-center justify-between gap-3">
-            <p className="text-xs text-ink-500">5 cột: tên phân khúc, A thành công, A tổng, B thành công, B tổng. Hỗ trợ dấu phẩy, chấm phẩy, tab.</p>
+            <p className="text-xs text-ink-500">
+              5 cột: tên nhóm khách, A thành công, A tổng, B thành công, B tổng. Hỗ trợ dấu phẩy, chấm phẩy, tab.
+            </p>
             <Button variant="primary" onClick={() => apply(text)}>
               Phân tích
             </Button>
