@@ -10,10 +10,10 @@ const mono = JetBrains_Mono({ subsets: ["latin", "vietnamese"], variable: "--fon
 export const metadata: Metadata = {
   title: "The Paradox Matrix · Ra quyết định tốt hơn trực giác",
   description:
-    "Công cụ tư duy xác suất cho chủ doanh nghiệp: giả lập quyết định Bayes, kiểm toán nghịch lý Simpson và mô phỏng tăng trưởng hàm mũ. Dùng thử miễn phí.",
+    "Đang đổ thêm tiền vào thứ lỗ? Báo cáo đang đánh lừa bạn? Nhập số liệu của bạn, 5 phút biết ngay. Dùng thử miễn phí.",
   openGraph: {
     title: "The Paradox Matrix · Ra quyết định tốt hơn trực giác",
-    description: "3 nghịch lý khiến chủ doanh nghiệp mất tiền nhiều nhất, biến thành công cụ bạn thử được với số liệu của chính mình.",
+    description: "3 cái bẫy khiến chủ doanh nghiệp mất tiền nhiều nhất. Nhập số liệu của bạn, 5 phút biết mình có đang mắc bẫy không.",
     locale: "vi_VN",
     type: "website",
   },

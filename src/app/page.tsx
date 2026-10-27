@@ -5,19 +5,19 @@ import { PricingTable } from "@/components/site/PricingTable";
 
 const TRAPS = [
   {
-    tag: "Module 01 · Bayes & Monty Hall",
+    tag: "Bẫy 01 · Tiếc tiền",
     title: "Đổ thêm tiền vì đã lỡ đổ quá nhiều",
-    body: "Chiến dịch quảng cáo lỗ 3 tháng, bạn vẫn chạy tiếp “vì đã đầu tư 50 triệu rồi”. Engine Bayes cập nhật xác suất thành công từ dữ liệu thật và cảnh báo khi bạn đang đi tiếp chỉ vì tiếc chi phí chìm.",
+    body: "Quảng cáo lỗ 3 tháng, bạn vẫn chạy tiếp “vì lỡ chi 50 triệu rồi”. Nhập số liệu thật, công cụ cho bạn thấy cơ hội thắng còn bao nhiêu phần trăm, và báo động khi bạn chỉ đang đi tiếp vì tiếc tiền.",
   },
   {
-    tag: "Module 02 · Nghịch lý Simpson",
+    tag: "Bẫy 02 · Báo cáo đánh lừa",
     title: "Đọc báo cáo tổng mà kết luận ngược",
-    body: "Chi nhánh A có tỷ lệ chốt đơn tổng cao hơn B, nhưng ở từng nhóm khách B lại thắng. Công cụ bóc tách dữ liệu theo phân khúc và chỉ ra khi con số tổng đang nói dối bạn.",
+    body: "Nhìn tổng thì chi nhánh A chốt đơn tốt hơn B. Tách ra từng nhóm khách thì B thắng ở mọi nhóm. Công cụ tự tách số liệu và chỉ ra khi con số tổng đang nói dối bạn, trước khi bạn thưởng nhầm người, cắt nhầm kênh.",
   },
   {
-    tag: "Module 03 · Tăng trưởng hàm mũ",
+    tag: "Bẫy 03 · Bỏ cuộc quá sớm",
     title: "Bỏ cuộc ngay trước điểm bùng phát",
-    body: "Đăng nội dung 2 tháng không thấy kết quả nên dừng. Mô phỏng tăng trưởng hàm mũ cho bạn thấy giai đoạn “phẳng” dài bao lâu và điểm bùng phát nằm ở đâu, để không dừng sai thời điểm.",
+    body: "Làm nội dung 2 tháng chưa thấy gì nên dừng. Công cụ cho bạn thấy giai đoạn “chưa ra kết quả” thường kéo dài bao lâu và lúc nào bắt đầu bật lên, để bạn không bỏ ngay trước khi hái quả.",
   },
 ];
 
@@ -51,14 +51,14 @@ export default function Landing() {
       <main>
         <section className="mx-auto max-w-5xl px-4 pb-16 pt-14 text-center sm:px-6 sm:pt-20">
           <p className="inline-block rounded-full border border-ink-200 bg-white px-3 py-1 text-xs font-medium text-ink-600">
-            Công cụ tư duy xác suất cho chủ doanh nghiệp &amp; solopreneur
+            Dành cho chủ doanh nghiệp, chủ shop và người kinh doanh tự do
           </p>
           <h1 className="mx-auto mt-5 max-w-3xl text-4xl font-semibold tracking-tight text-ink-900 sm:text-5xl">
             Trực giác của bạn đang làm bạn mất tiền ở 3 chỗ này.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-ink-600 sm:text-lg">
-            Tin nhầm tín hiệu, đọc sai số liệu tổng hợp, và bỏ cuộc ngay trước điểm bùng phát. The Paradox Matrix biến 3 nghịch lý
-            toán học đó thành công cụ bạn thử được với số liệu của chính mình, trong 5 phút.
+            Đổ thêm tiền vào thứ đang lỗ, tin một báo cáo đánh lừa, và bỏ cuộc ngay trước khi có kết quả. Nhập số liệu của bạn,
+            5 phút sau bạn biết mình có đang mắc bẫy nào không.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/app" className="rounded-xl bg-ink-900 px-6 py-3 text-sm font-semibold text-white hover:bg-ink-800">
@@ -86,9 +86,9 @@ export default function Landing() {
         <section className="border-y border-ink-200 bg-white">
           <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-6 md:grid-cols-3">
             {[
-              ["1", "Chọn bài toán", "Một quyết định đang phân vân, một báo cáo nghi ngờ, hay một kênh đang “phẳng”."],
-              ["2", "Nhập số liệu thật", "Gõ tay hoặc dán CSV từ Excel, Google Sheets, phần mềm bán hàng."],
-              ["3", "Đọc kết luận", "Biểu đồ và cảnh báo bằng tiếng Việt, xuất PDF để bàn với đối tác."],
+              ["1", "Chọn bài toán", "Một khoản đang phân vân có nên chi tiếp, một báo cáo thấy lạ, hay một kênh mãi chưa ra đơn."],
+              ["2", "Nhập số liệu thật", "Gõ tay vài con số, hoặc dán bảng từ Excel, Google Sheets, phần mềm bán hàng."],
+              ["3", "Đọc kết luận", "Kết luận rõ ràng: nên làm gì, dừng gì. Xuất PDF để bàn với đối tác."],
             ].map(([n, title, body]) => (
               <div key={n}>
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink-900 text-sm font-semibold text-white">{n}</span>

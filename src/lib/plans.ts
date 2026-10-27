@@ -28,13 +28,13 @@ export const planByTag = (tag: string) => PLANS.find((p) => p.tag === tag);
 export const vnd = (n: number) => `${n.toLocaleString("vi-VN")}đ`;
 
 export const FREE_FEATURES = [
-  "Cả 3 module: Bayes & Monty Hall, Simpson, Tăng trưởng hàm mũ",
+  "Cả 3 công cụ: Tiếc tiền, Báo cáo đánh lừa, Bỏ cuộc quá sớm",
   "Dữ liệu mẫu theo ngành",
   "Nhập tay không giới hạn",
 ];
 
 export const PRO_FEATURES = [
-  "Nhập và xuất CSV số liệu thật của bạn",
+  "Nhập và xuất bảng số liệu (Excel, Google Sheets)",
   "Xuất báo cáo PDF để gửi đối tác, nhà đầu tư",
   "Ưu tiên các module và mẫu mới",
   "Hỗ trợ trực tiếp qua Zalo",
