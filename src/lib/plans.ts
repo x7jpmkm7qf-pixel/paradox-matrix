@@ -36,6 +36,6 @@ export const FREE_FEATURES = [
 export const PRO_FEATURES = [
   "Nhập và xuất bảng số liệu (Excel, Google Sheets)",
   "Xuất báo cáo PDF để gửi đối tác, nhà đầu tư",
-  "Ưu tiên các module và mẫu mới",
+  "Được dùng trước các công cụ và mẫu mới",
   "Hỗ trợ trực tiếp qua Zalo",
 ];

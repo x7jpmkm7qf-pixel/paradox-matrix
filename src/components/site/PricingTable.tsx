@@ -22,7 +22,7 @@ export function PricingTable() {
       </div>
 
       {PLANS.map((plan) => {
-        const featured = plan.id === "pro-year";
+        const featured = plan.id === "founder";
         return (
           <div
             key={plan.id}
@@ -30,7 +30,7 @@ export function PricingTable() {
           >
             {featured && (
               <span className="absolute -top-3 left-6 rounded-full bg-accent-500 px-2.5 py-0.5 text-[11px] font-semibold text-white">
-                Tiết kiệm nhất
+                Chỉ 100 suất
               </span>
             )}
             <p className={`text-sm font-semibold ${featured ? "text-white" : "text-ink-900"}`}>{plan.name}</p>
@@ -56,7 +56,7 @@ export function PricingTable() {
                 featured ? "bg-white text-ink-900 hover:bg-ink-100" : "bg-ink-900 text-white hover:bg-ink-800"
               }`}
             >
-              Chọn {plan.name}
+              {featured ? "Giữ suất Sáng lập" : `Chọn ${plan.name}`}
             </Link>
           </div>
         );
