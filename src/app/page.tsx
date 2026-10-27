@@ -3,6 +3,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PricingTable } from "@/components/site/PricingTable";
 import { Quiz } from "@/components/site/Quiz";
+import { FOUNDER_SEATS, founderOffer, vnd } from "@/lib/plans";
+import { founderSeatsSold } from "@/lib/sepay";
 
 const PROOF = [
   ["50 triệu", "tiền quảng cáo đổ vào một chiến dịch “tiếc không nỡ tắt”"],
@@ -96,12 +98,17 @@ const FAQ = [
   },
 ];
 
-export default function Landing() {
+// Re-read the founder seat count from SePay every 5 minutes.
+export const revalidate = 300;
+
+export default async function Landing() {
+  const founder = founderOffer(await founderSeatsSold());
   return (
     <>
       <Header />
       <div className="bg-ink-900 px-4 py-2 text-center text-xs font-medium text-white sm:text-sm">
-        Ưu đãi Sáng lập: dùng trọn đời 1.999.000đ, chỉ 100 suất.{" "}
+        Ưu đãi Sáng lập: dùng trọn đời {vnd(founder.plan.price)},{" "}
+        {founder.earlyLeft ? `còn ${founder.earlyLeft} suất giá này.` : `chỉ ${FOUNDER_SEATS} suất.`}{" "}
         <Link href="#bang-gia" className="underline underline-offset-2">
           Xem ngay
         </Link>
@@ -215,10 +222,10 @@ export default function Landing() {
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm text-ink-600">
               Một chiến dịch chạy sai 1 tháng: 10–50 triệu. Một nhân sự giỏi nghỉ vì bị đánh giá sai: không tính được. Trọn đời The Paradox
-              Matrix: 1.999.000đ.
+              Matrix: {vnd(founder.plan.price)}.
             </p>
           </div>
-          <PricingTable />
+          <PricingTable founder={founder} />
           <div className="mx-auto mt-8 max-w-2xl rounded-2xl border border-ink-200 bg-white p-5 text-center">
             <p className="font-semibold text-ink-900">Hoàn tiền 100% trong 7 ngày</p>
             <p className="mt-1 text-sm text-ink-600">

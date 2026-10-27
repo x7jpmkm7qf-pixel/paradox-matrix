@@ -3,7 +3,7 @@ export type PlanId = "pro-month" | "pro-year" | "founder";
 export interface Plan {
   id: PlanId;
   /** One-letter tag embedded in order codes so the amount can be recovered without a database. */
-  tag: "P" | "Y" | "F";
+  tag: "P" | "Y" | "F" | "G";
   name: string;
   price: number;
   /** License length in days; null means lifetime. */
@@ -71,8 +71,37 @@ export const PLANS: Plan[] = [
   },
 ];
 
+/** Founder seats: the first FOUNDER_EARLY_SEATS sell at the base price, the rest at FOUNDER_LATE.price. */
+export const FOUNDER_SEATS = 100;
+export const FOUNDER_EARLY_SEATS = 30;
+
+const founderEarly = PLANS.find((p) => p.id === "founder")!;
+
+/** Same plan once the early seats are gone; its own tag keeps the higher price checkable from the order code. */
+export const FOUNDER_LATE: Plan = { ...founderEarly, tag: "G", price: 2_499_000, note: "Bằng 2 năm Pro, dùng mãi mãi" };
+
+export interface FounderOffer {
+  plan: Plan;
+  /** Founder seats paid so far; null when SePay could not be read. */
+  sold: number | null;
+  seatsLeft: number | null;
+  earlyLeft: number | null;
+  soldOut: boolean;
+}
+
+/** Current founder price and seats; an unknown count falls back to the early price without a counter. */
+export function founderOffer(sold: number | null): FounderOffer {
+  if (sold === null) return { plan: founderEarly, sold, seatsLeft: null, earlyLeft: null, soldOut: false };
+  const earlyLeft = Math.max(0, FOUNDER_EARLY_SEATS - sold);
+  const seatsLeft = Math.max(0, FOUNDER_SEATS - sold);
+  return { plan: earlyLeft > 0 ? founderEarly : FOUNDER_LATE, sold, seatsLeft, earlyLeft, soldOut: seatsLeft === 0 };
+}
+
+/** PLANS with the founder entry priced for the current offer. */
+export const plansFor = (offer: FounderOffer) => PLANS.map((p) => (p.id === "founder" ? offer.plan : p));
+
 export const findPlan = (id: string | null | undefined) => PLANS.find((p) => p.id === id);
-export const planByTag = (tag: string) => PLANS.find((p) => p.tag === tag);
+export const planByTag = (tag: string) => [...PLANS, FOUNDER_LATE].find((p) => p.tag === tag);
 
 export const vnd = (n: number) => `${n.toLocaleString("vi-VN")}đ`;
 

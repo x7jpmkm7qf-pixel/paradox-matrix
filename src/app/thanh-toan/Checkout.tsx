@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { PLANS, findPlan, vnd, type PlanId } from "@/lib/plans";
+import { vnd, type Plan, type PlanId } from "@/lib/plans";
 import { usePro } from "@/components/pro/ProProvider";
 import { track } from "@/lib/pixel";
 
@@ -39,10 +39,11 @@ const savePending = (order: Order | null) => {
   }
 };
 
-export function Checkout() {
+export function Checkout({ plans }: { plans: Plan[] }) {
   const params = useSearchParams();
+  const findPlan = (id: string | null | undefined) => plans.find((p) => p.id === id);
   const { activate } = usePro();
-  const [planId, setPlanId] = useState<PlanId>(findPlan(params.get("goi"))?.id ?? "pro-year");
+  const [planId, setPlanId] = useState<PlanId>(() => findPlan(params.get("goi"))?.id ?? "pro-year");
   const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -58,29 +59,32 @@ export function Checkout() {
     }
   }, [params]);
 
-  const createOrder = useCallback(async (id: PlanId) => {
-    setLoading(true);
-    setError(null);
-    setExpired(false);
-    try {
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: id }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Không tạo được đơn hàng");
-      const next: Order = { ...data, createdAt: Date.now() };
-      setOrder(next);
-      savePending(next);
-      const plan = findPlan(id)!;
-      track("InitiateCheckout", { currency: "VND", value: plan.price, content_name: plan.name, content_ids: [plan.id] });
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Có lỗi xảy ra, vui lòng thử lại.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const createOrder = useCallback(
+    async (id: PlanId) => {
+      setLoading(true);
+      setError(null);
+      setExpired(false);
+      try {
+        const res = await fetch("/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan: id }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error ?? "Không tạo được đơn hàng");
+        const next: Order = { ...data, createdAt: Date.now() };
+        setOrder(next);
+        savePending(next);
+        const name = plans.find((p) => p.id === id)?.name;
+        track("InitiateCheckout", { currency: "VND", value: next.amount, content_name: name, content_ids: [id] });
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Có lỗi xảy ra, vui lòng thử lại.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [plans],
+  );
 
   useEffect(() => {
     if (!order || paid || expired) return;
@@ -112,7 +116,8 @@ export function Checkout() {
     };
   }, [order, paid, expired, activate]);
 
-  const plan = findPlan(planId)!;
+  // A restored founder order can outlive the plan being on sale; fall back so the page still renders.
+  const plan = findPlan(planId) ?? plans[0];
 
   if (paid) {
     return (
@@ -138,7 +143,7 @@ export function Checkout() {
         <h1 className="text-xl font-semibold text-ink-900">Nâng cấp The Paradox Matrix Pro</h1>
         <p className="mt-1 text-sm text-ink-500">Chọn gói, quét QR, Pro mở khóa tự động.</p>
         <div className="mt-5 space-y-2">
-          {PLANS.map((p) => (
+          {plans.map((p) => (
             <label
               key={p.id}
               className={`flex cursor-pointer items-center justify-between rounded-xl border p-4 transition ${
