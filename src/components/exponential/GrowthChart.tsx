@@ -28,9 +28,9 @@ interface GrowthChartProps {
 }
 
 const SERIES_LABELS: Record<string, string> = {
-  exponential: "Lũy kế (hàm mũ)",
-  linear: "Kỳ vọng tuyến tính",
-  decline: "Tệ đi mỗi kỳ",
+  exponential: "Thực tế (tăng dồn)",
+  linear: "Mức bạn mong đợi",
+  decline: "Kịch bản giảm dần",
   valley: "Thung lũng thất vọng",
 };
 
@@ -65,11 +65,16 @@ export function GrowthChart({ data, tippingPoint, tippingValue, quitPoint, perio
           />
           <Legend iconType="plainline" wrapperStyle={{ fontSize: 12 }} formatter={(v: string) => SERIES_LABELS[v] ?? v} />
 
-          <Area dataKey="valley" stroke="none" fill={chartColors.danger} fillOpacity={0.08} isAnimationActive={false} connectNulls={false} />
+          <Area
+            dataKey="valley"
+            stroke="none"
+            fill={chartColors.danger}
+            fillOpacity={0.08}
+            isAnimationActive={false}
+            connectNulls={false}
+          />
           <Line dataKey="linear" stroke={chartColors.muted} strokeDasharray="5 4" strokeWidth={1.5} dot={false} isAnimationActive={false} />
-          {showDecline && (
-            <Line dataKey="decline" stroke={chartColors.secondary} strokeWidth={1.5} dot={false} isAnimationActive={false} />
-          )}
+          {showDecline && <Line dataKey="decline" stroke={chartColors.secondary} strokeWidth={1.5} dot={false} isAnimationActive={false} />}
           <Line dataKey="exponential" stroke={chartColors.primary} strokeWidth={2.5} dot={false} isAnimationActive={false} />
 
           {quitPoint > 0 && (

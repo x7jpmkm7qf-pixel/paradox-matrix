@@ -23,12 +23,12 @@ export function AuditFindings({ report, labelA, labelB, metric }: AuditFindingsP
           caption={`${labelA} ${pct(total.aRate)} · ${labelB} ${pct(total.bRate)}`}
         />
         <Stat
-          label="Thắng theo phân khúc"
+          label="Thắng ở bao nhiêu nhóm khách"
           value={`${segmentWins.A} : ${segmentWins.B}`}
-          caption={`${labelA} : ${labelB} trên ${report.segments.length} phân khúc`}
+          caption={`${labelA} : ${labelB} trên ${report.segments.length} nhóm khách`}
         />
         <Stat
-          label="Sau khi chuẩn hóa cơ cấu"
+          label="So sòng phẳng"
           value={name(report.adjustedWinner)}
           caption={`${labelA} ${pct(report.aRateAdjusted)} · ${labelB} ${pct(report.bRateAdjusted)}`}
           emphasis
@@ -36,25 +36,25 @@ export function AuditFindings({ report, labelA, labelB, metric }: AuditFindingsP
       </div>
 
       {severity === "paradox" && (
-        <Alert tone="danger" title="Phát hiện nghịch lý Simpson">
-          Số liệu tổng hợp nói <b>{name(total.winner)}</b> tốt hơn, nhưng <b>{name(total.winner === "A" ? "B" : "A")}</b> thắng ở{" "}
-          <b>mọi</b> phân khúc. Kết luận dựa trên con số tổng là sai: bạn có thể đang cắt nhầm đội, nhầm kênh, nhầm sản phẩm.
+        <Alert tone="danger" title="Con số tổng đang đánh lừa bạn">
+          Số liệu tổng hợp nói <b>{name(total.winner)}</b> tốt hơn, nhưng <b>{name(total.winner === "A" ? "B" : "A")}</b> thắng ở <b>mọi</b>{" "}
+          nhóm khách. Kết luận dựa trên con số tổng là sai: bạn có thể đang cắt nhầm đội, nhầm kênh, nhầm sản phẩm.
         </Alert>
       )}
       {severity === "partial" && (
         <Alert tone="warning" title="Dấu hiệu nghịch đảo một phần">
-          Con số tổng hợp ủng hộ <b>{name(total.winner)}</b>, nhưng phần lớn phân khúc hoặc kết quả đã chuẩn hóa cơ cấu lại nghiêng về
-          phía còn lại. Đừng ra quyết định chỉ từ số tổng.
+          Con số tổng hợp ủng hộ <b>{name(total.winner)}</b>, nhưng phần lớn nhóm khách hoặc kết quả so sòng phẳng lại nghiêng về phía còn
+          lại. Đừng ra quyết định chỉ từ số tổng.
         </Alert>
       )}
       {severity === "consistent" && (
         <Alert tone="success" title="Không phát hiện nghịch đảo">
-          Kết luận từ số tổng hợp nhất quán với dữ liệu từng phân khúc.
+          Kết luận từ số tổng hợp nhất quán với dữ liệu từng nhóm khách.
         </Alert>
       )}
       {severity === "insufficient" && (
-        <Alert tone="info" title="Cần ít nhất 2 phân khúc hợp lệ">
-          Thêm phân khúc (theo khu vực, loại khách, thiết bị...) để kiểm tra nghịch lý.
+        <Alert tone="info" title="Cần ít nhất 2 nhóm khách hợp lệ">
+          Thêm nhóm khách (theo khu vực, loại khách, thiết bị...) để kiểm tra.
         </Alert>
       )}
 
@@ -62,9 +62,9 @@ export function AuditFindings({ report, labelA, labelB, metric }: AuditFindingsP
         <div className="rounded-xl border border-ink-200 p-4">
           <p className="text-xs font-medium uppercase tracking-wide text-ink-500">Biến gây nhiễu nằm ở đâu?</p>
           <p className="mt-2 text-sm leading-relaxed text-ink-700">
-            Cơ cấu dữ liệu lệch nhiều nhất ở phân khúc <b>{skew.segment}</b>: chiếm {pct(skew.aMix, 0)} dữ liệu của {labelA} nhưng{" "}
-            {pct(skew.bMix, 0)} của {labelB}. Khi hai nhóm có tỷ trọng phân khúc khác nhau, con số tổng phản ánh <i>cơ cấu</i> nhiều
-            hơn là <i>hiệu quả</i>.
+            Cơ cấu dữ liệu lệch nhiều nhất ở nhóm khách <b>{skew.segment}</b>: chiếm {pct(skew.aMix, 0)} dữ liệu của {labelA} nhưng{" "}
+            {pct(skew.bMix, 0)} của {labelB}. Khi hai nhóm có tỷ trọng nhóm khách khác nhau, con số tổng phản ánh <i>cơ cấu</i> nhiều hơn là{" "}
+            <i>hiệu quả</i>.
           </p>
           <MixTable report={report} labelA={labelA} labelB={labelB} />
         </div>
@@ -79,7 +79,7 @@ function MixTable({ report, labelA, labelB }: { report: SimpsonReport; labelA: s
       <table className="w-full min-w-[480px] text-sm">
         <thead>
           <tr className="text-left text-xs uppercase tracking-wide text-ink-500">
-            <th className="pb-2 font-medium">Phân khúc</th>
+            <th className="pb-2 font-medium">Nhóm khách</th>
             <th className="pb-2 text-right font-medium">Tỷ trọng {labelA}</th>
             <th className="pb-2 text-right font-medium">Tỷ trọng {labelB}</th>
             <th className="pb-2 text-right font-medium">Tỷ lệ {labelA}</th>
@@ -97,7 +97,9 @@ function MixTable({ report, labelA, labelB }: { report: SimpsonReport; labelA: s
             </tr>
           ))}
           <tr className="border-t border-ink-200 font-semibold">
-            <td className="py-1.5 font-sans">Tổng ({num(report.total.aTotal)} / {num(report.total.bTotal)})</td>
+            <td className="py-1.5 font-sans">
+              Tổng ({num(report.total.aTotal)} / {num(report.total.bTotal)})
+            </td>
             <td className="py-1.5 text-right">100%</td>
             <td className="py-1.5 text-right">100%</td>
             <td className="py-1.5 text-right">{pct(report.total.aRate)}</td>

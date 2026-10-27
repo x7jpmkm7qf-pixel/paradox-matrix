@@ -13,13 +13,11 @@ interface SegmentEditorProps {
 const NUMERIC_FIELDS: (keyof Omit<SegmentRow, "segment">)[] = ["aSuccess", "aTotal", "bSuccess", "bTotal"];
 
 export function SegmentEditor({ rows, labelA, labelB, onChange }: SegmentEditorProps) {
-  const update = (index: number, patch: Partial<SegmentRow>) =>
-    onChange(rows.map((r, i) => (i === index ? { ...r, ...patch } : r)));
+  const update = (index: number, patch: Partial<SegmentRow>) => onChange(rows.map((r, i) => (i === index ? { ...r, ...patch } : r)));
 
   const remove = (index: number) => onChange(rows.filter((_, i) => i !== index));
 
-  const add = () =>
-    onChange([...rows, { segment: `Phân khúc ${rows.length + 1}`, aSuccess: 0, aTotal: 100, bSuccess: 0, bTotal: 100 }]);
+  const add = () => onChange([...rows, { segment: `Nhóm khách ${rows.length + 1}`, aSuccess: 0, aTotal: 100, bSuccess: 0, bTotal: 100 }]);
 
   return (
     <div>
@@ -27,7 +25,7 @@ export function SegmentEditor({ rows, labelA, labelB, onChange }: SegmentEditorP
         <table className="w-full min-w-[560px] text-sm">
           <thead>
             <tr className="text-left text-xs uppercase tracking-wide text-ink-500">
-              <th className="min-w-[160px] pb-2 font-medium">Phân khúc</th>
+              <th className="min-w-[160px] pb-2 font-medium">Nhóm khách</th>
               <th className="pb-2 font-medium">{labelA}: thành công</th>
               <th className="pb-2 font-medium">{labelA}: tổng</th>
               <th className="pb-2 font-medium">{labelB}: thành công</th>
@@ -42,7 +40,7 @@ export function SegmentEditor({ rows, labelA, labelB, onChange }: SegmentEditorP
                 <tr key={i} className="border-t border-ink-100">
                   <td className="py-1.5 pr-2">
                     <input
-                      aria-label="Tên phân khúc"
+                      aria-label="Tên nhóm khách"
                       className="w-full rounded-md border border-transparent px-2 py-1.5 text-ink-900 hover:border-ink-200 focus:border-accent-500 focus:outline-none"
                       value={row.segment}
                       onChange={(e) => update(i, { segment: e.target.value })}
@@ -79,7 +77,7 @@ export function SegmentEditor({ rows, labelA, labelB, onChange }: SegmentEditorP
         </table>
       </div>
       <div className="mt-3">
-        <Button onClick={add}>+ Thêm phân khúc</Button>
+        <Button onClick={add}>+ Thêm nhóm khách</Button>
       </div>
     </div>
   );
