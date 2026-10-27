@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { ProButton } from "@/components/pro/ProButton";
 import { parseSegmentCsv, toCsv, type SegmentRow } from "@/lib/simpson";
 
 interface CsvImportProps {
@@ -46,9 +47,15 @@ export function CsvImport({ rows, onImport }: CsvImportProps) {
   return (
     <div>
       <div className="flex flex-wrap gap-2">
-        <Button onClick={() => setOpen((o) => !o)}>{open ? "Đóng nhập liệu" : "Dán CSV"}</Button>
-        <Button onClick={() => fileRef.current?.click()}>Tải file CSV</Button>
-        <Button onClick={download}>Xuất CSV</Button>
+        <ProButton feature="Dán CSV" onClick={() => setOpen((o) => !o)}>
+          {open ? "Đóng nhập liệu" : "Dán CSV"}
+        </ProButton>
+        <ProButton feature="Tải file CSV" onClick={() => fileRef.current?.click()}>
+          Tải file CSV
+        </ProButton>
+        <ProButton feature="Xuất CSV" onClick={download}>
+          Xuất CSV
+        </ProButton>
         <input
           ref={fileRef}
           type="file"
