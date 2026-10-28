@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { SITE } from "@/lib/site";
 import { usePro } from "@/components/pro/ProProvider";
 import { findPlan } from "@/lib/plans";
 
@@ -44,6 +45,13 @@ export function Activate() {
             Gỡ Pro khỏi máy này
           </button>
         </div>
+        <a
+          href={SITE.guideUrl}
+          download
+          className="mt-5 block text-sm font-medium text-accent-700 underline underline-offset-2 hover:text-accent-800"
+        >
+          Tải hướng dẫn sử dụng (PDF)
+        </a>
       </div>
     );
   }
