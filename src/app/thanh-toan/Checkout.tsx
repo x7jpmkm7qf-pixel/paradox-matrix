@@ -192,7 +192,7 @@ export function Checkout({ plans }: { plans: Plan[] }) {
         </div>
         <ul className="mt-5 space-y-1.5 text-xs text-ink-500">
           <li>✓ Hoàn tiền 100% trong 7 ngày nếu không hài lòng</li>
-          <li>✓ Gói tháng và năm không tự gia hạn, không trừ tiền ngầm</li>
+          <li>✓ Gói 6 tháng và gói năm không tự gia hạn, không trừ tiền ngầm</li>
           <li>
             ✓ Đã thanh toán trước đó?{" "}
             <Link href="/kich-hoat" className="underline">

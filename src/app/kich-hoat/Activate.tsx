@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
 import { usePro } from "@/components/pro/ProProvider";
-import { findPlan } from "@/lib/plans";
+import { findAnyPlan } from "@/lib/plans";
 import { ACCOUNTS_ON } from "@/lib/accounts";
 import { AuthPanel } from "@/components/auth/AuthPanel";
 
@@ -43,8 +43,8 @@ export function Activate() {
     return (
       <div className="rounded-2xl border border-ink-200 bg-white p-8 shadow-card">
         <p className="mb-5 rounded-lg bg-accent-50 px-3 py-2 text-sm leading-relaxed text-ink-700">
-          Gói Pro giờ được gắn vào tài khoản, đổi máy vẫn dùng được. Đã mua bằng mã đơn trước đây? Đăng nhập hoặc tạo tài khoản, rồi nhập
-          mã đơn một lần là xong.
+          Gói Pro giờ được gắn vào tài khoản, đổi máy vẫn dùng được. Đã mua bằng mã đơn trước đây? Đăng nhập hoặc tạo tài khoản, rồi nhập mã
+          đơn một lần là xong.
         </p>
         <AuthPanel mode="login" next="/kich-hoat" />
       </div>
@@ -57,7 +57,8 @@ export function Activate() {
         <h1 className="text-2xl font-semibold text-ink-900">{ACCOUNTS_ON ? "Tài khoản đang dùng Pro" : "Máy này đang dùng Pro"}</h1>
         {email && <p className="mt-1 text-sm text-ink-500">{email}</p>}
         <p className="mt-2 text-sm text-ink-600">
-          Gói: {findPlan(plan)?.name ?? plan} · {expiresAt ? `hết hạn ngày ${new Date(expiresAt).toLocaleDateString("vi-VN")}` : "trọn đời"}
+          Gói: {findAnyPlan(plan)?.name ?? plan} ·{" "}
+          {expiresAt ? `hết hạn ngày ${new Date(expiresAt).toLocaleDateString("vi-VN")}` : "trọn đời"}
         </p>
         <FounderGroupLink />
         <div className="mt-6 flex justify-center gap-3">

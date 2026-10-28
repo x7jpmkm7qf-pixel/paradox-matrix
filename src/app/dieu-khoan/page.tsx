@@ -22,7 +22,8 @@ export default function Terms() {
       </ul>
       <h2>2. Giá và thanh toán</h2>
       <ul>
-        <li>Giá niêm yết bằng VNĐ tại trang Bảng giá: Pro tháng 149.900đ, Pro năm 1.249.000đ, Sáng lập 1.999.000đ (trọn đời).</li>
+        <li>Giá niêm yết bằng VNĐ tại trang Bảng giá: Pro 6 tháng 699.000đ, Pro năm 1.249.000đ, Sáng lập 1.999.000đ (trọn đời).</li>
+        <li>Gói Pro tháng (149.900đ) ngừng bán từ ngày 28/10/2026. Khách đã mua gói này vẫn dùng đủ thời hạn đã trả.</li>
         <li>
           Thanh toán bằng chuyển khoản ngân hàng qua mã VietQR. Gói Pro được kích hoạt tự động khi hệ thống ghi nhận đúng số tiền và nội
           dung chuyển khoản.
