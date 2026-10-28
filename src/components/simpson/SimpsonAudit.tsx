@@ -7,7 +7,15 @@ import { SegmentEditor } from "./SegmentEditor";
 import { CsvImport } from "./CsvImport";
 import { RateComparisonChart } from "./RateComparisonChart";
 import { AuditFindings } from "./AuditFindings";
+import { VerdictGate } from "@/components/pro/VerdictGate";
 import { analyseSimpson, SIMPSON_PRESETS, type SegmentRow } from "@/lib/simpson";
+
+const SEVERITY_SUMMARY = {
+  paradox: "Con số tổng đang đánh lừa, nhóm thua ở tổng lại thắng ở mọi nhóm khách",
+  partial: "Dấu hiệu nghịch đảo một phần, không nên quyết từ số tổng",
+  consistent: "Số tổng nhất quán với từng nhóm khách",
+  insufficient: "Chưa đủ nhóm khách để kết luận",
+} as const;
 
 /** Module 2 – The Simpson's Audit Tool. */
 export function SimpsonAudit() {
@@ -64,7 +72,14 @@ export function SimpsonAudit() {
           <RateComparisonChart report={report} labelA={labelA || "A"} labelB={labelB || "B"} />
         </Card>
         <Card title="Kết quả">
-          <AuditFindings report={report} labelA={labelA || "A"} labelB={labelB || "B"} metric={metric || "Tỷ lệ"} />
+          <VerdictGate
+            tool="simpson"
+            fingerprint={JSON.stringify(rows)}
+            isSample={SIMPSON_PRESETS.some((p) => JSON.stringify(p.rows) === JSON.stringify(rows))}
+            summary={`${SEVERITY_SUMMARY[report.severity]} (${labelA} vs ${labelB}, ${metric})`}
+          >
+            <AuditFindings report={report} labelA={labelA || "A"} labelB={labelB || "B"} metric={metric || "Tỷ lệ"} />
+          </VerdictGate>
         </Card>
       </div>
     </div>

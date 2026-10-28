@@ -31,6 +31,7 @@ export const PLANS: Plan[] = [
     note: "Linh hoạt, không tự gia hạn",
     includes: "Mọi thứ trong gói Miễn phí",
     perks: [
+      "Xem kết luận không giới hạn với số liệu của bạn",
       "Nhập và xuất bảng số liệu (Excel, Google Sheets)",
       "Xuất báo cáo PDF gửi đối tác, nhà đầu tư",
       "Hỗ trợ qua Zalo trong giờ hành chính",
@@ -107,6 +108,6 @@ export const vnd = (n: number) => `${n.toLocaleString("vi-VN")}đ`;
 
 export const FREE_FEATURES = [
   "Cả 3 công cụ: Tiếc tiền, Báo cáo đánh lừa, Bỏ cuộc quá sớm",
-  "Dữ liệu mẫu theo ngành",
-  "Nhập tay không giới hạn",
+  "Dữ liệu mẫu theo ngành, xem thoải mái",
+  "3 lượt xem kết luận với số liệu của bạn",
 ];

@@ -9,6 +9,8 @@ interface ProState {
   isPro: boolean | null;
   plan: string | null;
   expiresAt: number | null;
+  /** Zalo group invite link, only for founder licenses. */
+  founderGroup: string | null;
   activate: (license: string) => Promise<boolean>;
   deactivate: () => void;
 }
@@ -17,6 +19,7 @@ const ProContext = createContext<ProState>({
   isPro: false,
   plan: null,
   expiresAt: null,
+  founderGroup: null,
   activate: async () => false,
   deactivate: () => undefined,
 });
@@ -35,13 +38,14 @@ async function check(license: string) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ license }),
   });
-  return (await res.json()) as { valid: boolean; plan?: string; expiresAt?: number | null };
+  return (await res.json()) as { valid: boolean; plan?: string; expiresAt?: number | null; founderGroup?: string | null };
 }
 
 export function ProProvider({ children }: { children: ReactNode }) {
   const [isPro, setIsPro] = useState<boolean | null>(null);
   const [plan, setPlan] = useState<string | null>(null);
   const [expiresAt, setExpiresAt] = useState<number | null>(null);
+  const [founderGroup, setFounderGroup] = useState<string | null>(null);
 
   const activate = useCallback(async (license: string) => {
     const result = await check(license).catch(() => ({ valid: false }) as const);
@@ -54,6 +58,7 @@ export function ProProvider({ children }: { children: ReactNode }) {
     setIsPro(true);
     setPlan(result.plan ?? null);
     setExpiresAt(result.expiresAt ?? null);
+    setFounderGroup(result.founderGroup ?? null);
     return true;
   }, []);
 
@@ -66,6 +71,7 @@ export function ProProvider({ children }: { children: ReactNode }) {
     setIsPro(false);
     setPlan(null);
     setExpiresAt(null);
+    setFounderGroup(null);
   }, []);
 
   useEffect(() => {
@@ -79,7 +85,7 @@ export function ProProvider({ children }: { children: ReactNode }) {
     });
   }, [activate]);
 
-  return <ProContext.Provider value={{ isPro, plan, expiresAt, activate, deactivate }}>{children}</ProContext.Provider>;
+  return <ProContext.Provider value={{ isPro, plan, expiresAt, founderGroup, activate, deactivate }}>{children}</ProContext.Provider>;
 }
 
 export const usePro = () => useContext(ProContext);

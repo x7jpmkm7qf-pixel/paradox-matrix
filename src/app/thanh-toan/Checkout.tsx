@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderGroupLink } from "@/components/pro/FounderGroupLink";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
@@ -131,6 +132,7 @@ export function Checkout({ plans }: { plans: Plan[] }) {
           <p className="mt-1 font-mono text-xl font-semibold tracking-wider text-ink-900">{paid.code}</p>
           <CopyButton text={paid.code} />
         </div>
+        <FounderGroupLink />
         <Link href="/app" className="mt-6 inline-block rounded-xl bg-ink-900 px-6 py-3 text-sm font-semibold text-white hover:bg-ink-800">
           Vào dùng Pro ngay
         </Link>

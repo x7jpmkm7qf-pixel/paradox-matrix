@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderGroupLink } from "@/components/pro/FounderGroupLink";
 import { useState } from "react";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
@@ -34,14 +35,18 @@ export function Activate() {
       <div className="rounded-2xl border border-emerald-200 bg-white p-8 text-center shadow-card">
         <h1 className="text-2xl font-semibold text-ink-900">Máy này đang dùng Pro</h1>
         <p className="mt-2 text-sm text-ink-600">
-          Gói: {findPlan(plan)?.name ?? plan} ·{" "}
-          {expiresAt ? `hết hạn ngày ${new Date(expiresAt).toLocaleDateString("vi-VN")}` : "trọn đời"}
+          Gói: {findPlan(plan)?.name ?? plan} · {expiresAt ? `hết hạn ngày ${new Date(expiresAt).toLocaleDateString("vi-VN")}` : "trọn đời"}
         </p>
+        <FounderGroupLink />
         <div className="mt-6 flex justify-center gap-3">
           <Link href="/app" className="rounded-xl bg-ink-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-ink-800">
             Vào dashboard
           </Link>
-          <button type="button" onClick={deactivate} className="rounded-xl border border-ink-200 px-5 py-2.5 text-sm text-ink-600 hover:bg-ink-50">
+          <button
+            type="button"
+            onClick={deactivate}
+            className="rounded-xl border border-ink-200 px-5 py-2.5 text-sm text-ink-600 hover:bg-ink-50"
+          >
             Gỡ Pro khỏi máy này
           </button>
         </div>
