@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { ProBadge } from "@/components/pro/ProBadge";
+import { AccountLink } from "@/components/auth/AccountLink";
 
 const NAV = [
-  { href: "/app", label: "Dùng thử", always: true },
-  { href: "/hieu-them", label: "Hiểu thêm", always: false },
-  { href: "/ve-chung-toi", label: "Về chúng tôi", always: false },
-  { href: "/bang-gia", label: "Bảng giá", always: true },
+  { href: "/app", label: "Dùng thử", show: "" },
+  { href: "/hieu-them", label: "Hiểu thêm", show: "hidden md:inline-block" },
+  { href: "/ve-chung-toi", label: "Về chúng tôi", show: "hidden md:inline-block" },
+  // "Nâng cấp Pro" already leads to pricing, so phones keep room for "Đăng nhập".
+  { href: "/bang-gia", label: "Bảng giá", show: "hidden sm:inline-block" },
 ];
 
 export function Header() {
@@ -21,11 +23,12 @@ export function Header() {
             <Link
               key={n.href}
               href={n.href}
-              className={`rounded-lg px-2.5 py-1.5 text-ink-300 hover:bg-white/10 hover:text-white ${n.always ? "" : "hidden md:inline-block"}`}
+              className={`rounded-lg px-2.5 py-1.5 text-ink-300 hover:bg-white/10 hover:text-white ${n.show}`}
             >
               {n.label}
             </Link>
           ))}
+          <AccountLink />
           <ProBadge />
         </nav>
       </div>
