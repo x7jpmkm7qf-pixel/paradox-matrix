@@ -11,6 +11,9 @@ import { track } from "@/lib/pixel";
 /** Shown once Google is set up in Supabase (NEXT_PUBLIC_GOOGLE_LOGIN=1). */
 const GOOGLE_ON = process.env.NEXT_PUBLIC_GOOGLE_LOGIN === "1";
 
+/** Browsers built into Facebook, Messenger, Instagram, Zalo, TikTok… Google refuses to sign in there. */
+const IN_APP = /FBAN|FBAV|FB_IAB|FBIOS|Messenger|Instagram|Zalo|Line\/|TikTok|musical_ly|Bytedance|\bwv\)/i;
+
 export type AuthMode = "signup" | "login" | "forgot";
 
 type Step = AuthMode | "verify" | "forgot-sent";
@@ -47,6 +50,22 @@ export function AuthPanel({ mode, next, compact }: AuthPanelProps) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [inApp, setInApp] = useState<"ios" | "android" | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    if (IN_APP.test(ua)) setInApp(/Android/i.test(ua) ? "android" : "ios");
+  }, []);
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+    } catch {
+      window.prompt("Sao chép đường dẫn này rồi dán vào Safari hoặc Chrome:", window.location.href);
+    }
+  };
 
   // Google sign-in runs in a popup; it reports back here so the page (and any numbers typed on it) stays put.
   useEffect(() => {
@@ -77,7 +96,43 @@ export function AuthPanel({ mode, next, compact }: AuthPanelProps) {
     else window.location.href = data.url;
   };
 
-  const googleButton = GOOGLE_ON ? (
+  const divider = (
+    <div className="my-4 flex items-center gap-3 text-xs text-ink-400">
+      <span className="h-px flex-1 bg-ink-200" />
+      hoặc dùng email
+      <span className="h-px flex-1 bg-ink-200" />
+    </div>
+  );
+
+  const googleButton = !GOOGLE_ON ? null : inApp ? (
+    <>
+      <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+        <p>
+          Bạn đang mở trang trong ứng dụng (Facebook, Zalo…) nên Google không cho đăng nhập ở đây. Muốn dùng
+          Google, hãy bấm <b>•••</b> ở góc trên rồi chọn <b>Mở bằng trình duyệt</b>
+          {inApp === "ios" ? " (Safari)" : " (Chrome)"}.
+        </p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {inApp === "android" && (
+            <a
+              href={`intent://${typeof window === "undefined" ? "" : window.location.host + window.location.pathname + window.location.search}#Intent;scheme=https;package=com.android.chrome;end`}
+              className="rounded-lg bg-amber-900 px-3 py-1.5 text-xs font-semibold text-white"
+            >
+              Mở bằng Chrome
+            </a>
+          )}
+          <button
+            type="button"
+            onClick={() => void copyLink()}
+            className="rounded-lg border border-amber-300 bg-white px-3 py-1.5 text-xs font-semibold text-amber-900"
+          >
+            {copied ? "Đã sao chép đường dẫn" : "Sao chép đường dẫn"}
+          </button>
+        </div>
+      </div>
+      {divider}
+    </>
+  ) : (
     <>
       <button
         type="button"
@@ -87,13 +142,9 @@ export function AuthPanel({ mode, next, compact }: AuthPanelProps) {
         <GoogleLogo />
         Tiếp tục với Google
       </button>
-      <div className="my-4 flex items-center gap-3 text-xs text-ink-400">
-        <span className="h-px flex-1 bg-ink-200" />
-        hoặc dùng email
-        <span className="h-px flex-1 bg-ink-200" />
-      </div>
+      {divider}
     </>
-  ) : null;
+  );
 
   const go = (s: Step) => {
     setStep(s);
