@@ -107,7 +107,35 @@ const TRUST = [
   ["Hoàn tiền 7 ngày", "Không chỉ ra được một chỗ bạn đang quyết định sai thì trả lại 100% tiền. Không hỏi lý do."],
 ];
 
+const VS_AI = [
+  {
+    label: "Tầng 1",
+    title: "AI cho bạn lý thuyết. Công cụ này cho bạn một quyết định.",
+    body: "Hỏi ChatGPT “có nên chạy tiếp chiến dịch này không?”, bạn nhận về 5 gạch đầu dòng và câu quen thuộc “tuỳ vào tình hình của bạn”. Nghe hay, nhưng không ai chịu nói thẳng. The Paradox Matrix lấy số liệu thật của bạn và trả về một câu: dừng, hay chạy tiếp. Nó chỉ thẳng chỗ bạn đang tự lừa mình, kể cả khi bạn không muốn nghe.",
+    ai: "“Tuỳ trường hợp, bạn nên cân nhắc…”",
+    pm: "“Dừng. Mỗi đồng chi thêm đang lỗ.”",
+  },
+  {
+    label: "Tầng 2",
+    title: "Lúc đang lỗ, không ai đủ bình tĩnh để hỏi AI cho đúng.",
+    body: "AI trả lời tốt đến đâu là do câu hỏi tốt đến đâu. Nhưng khi tiền đang cháy, bạn sẽ hỏi theo cách bạn muốn được trấn an: “chiến dịch này sắp ra đơn rồi đúng không?”. Và AI sẽ chiều theo bạn. Công cụ này đã đặt sẵn đúng câu hỏi và đúng ô số liệu cần điền. Bạn không có chỗ để biện minh, chỉ có chỗ để điền sự thật.",
+    ai: "Câu hỏi do cảm xúc của bạn viết",
+    pm: "Khung câu hỏi cố định, không lách được",
+  },
+  {
+    label: "Tầng 3",
+    title: "Người tỉnh táo không mua thông tin. Họ mua thời gian.",
+    body: "Thông tin thì miễn phí, trên mạng có cả. Cái không miễn phí là 1 tiếng ngồi gõ qua gõ lại với AI, tự kiểm tra xem nó tính đúng chưa, rồi vẫn phải tự quyết. Ở đây bạn điền vài con số, 2 phút sau có kết luận. Lần sau mở ra là dùng ngay, không phải nghĩ lại từ đầu.",
+    ai: "Gõ, sửa, hỏi lại, tự kiểm tra: 1 tiếng",
+    pm: "Điền số, đọc kết luận: 2 phút",
+  },
+];
+
 const FAQ = [
+  {
+    q: "Sao tôi không tự hỏi ChatGPT hay Claude cho rẻ?",
+    a: "Bạn hoàn toàn có thể hỏi. Nhưng AI chung chung đưa lý thuyết và câu “tuỳ trường hợp”, còn công cụ này đưa một quyết định từ số liệu thật của bạn, trong 2 phút, với khung câu hỏi không cho bạn tự trấn an. Xem phần so sánh ngay phía trên bảng giá.",
+  },
   {
     q: "Tôi dốt toán, có dùng được không?",
     a: "Được. Bạn không cần tính gì. Biết số đơn, số tiền là đủ. Công cụ tự tính và nói kết luận bằng tiếng Việt dễ hiểu.",
@@ -332,6 +360,59 @@ export default async function Landing() {
             <p className="mt-8 text-center font-semibold text-ink-900">
               Không ai trong số họ thiếu kinh nghiệm. Họ chỉ thiếu một thứ dám cãi lại cảm giác của mình.
             </p>
+          </div>
+        </section>
+
+        <section id="sao-khong-hoi-ai" className="scroll-mt-20 bg-ink-900 text-white">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+            <p className="text-center font-mono text-xs text-ink-300">Câu hỏi ai cũng nghĩ tới</p>
+            <h2 className="mx-auto mt-3 max-w-3xl text-center text-2xl font-semibold tracking-tight sm:text-4xl">
+              “Sao tôi phải mua, trong khi có thể hỏi ChatGPT hay Claude miễn phí?”
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-relaxed text-ink-300 sm:text-base">
+              Câu hỏi hay. Chúng tôi dùng AI mỗi ngày, và chính vì dùng nhiều nên biết rõ nó giỏi ở đâu, hụt ở đâu. Đây là câu trả lời
+              thẳng.
+            </p>
+            <div className="mt-12 space-y-4">
+              {VS_AI.map((v) => (
+                <article
+                  key={v.label}
+                  className="grid gap-6 rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-8 lg:grid-cols-[1.5fr_1fr]"
+                >
+                  <div>
+                    <p className="font-mono text-xs text-accent-400">{v.label}</p>
+                    <h3 className="mt-2 text-xl font-semibold leading-snug tracking-tight">{v.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-ink-300 sm:text-[15px]">{v.body}</p>
+                  </div>
+                  <dl className="grid content-center gap-3 text-sm">
+                    <div className="rounded-xl border border-white/10 px-4 py-3">
+                      <dt className="text-xs uppercase tracking-wide text-ink-400">Hỏi AI chung chung</dt>
+                      <dd className="mt-1 text-ink-200">{v.ai}</dd>
+                    </div>
+                    <div className="rounded-xl bg-white px-4 py-3 text-ink-900">
+                      <dt className="text-xs font-semibold uppercase tracking-wide text-accent-600">The Paradox Matrix</dt>
+                      <dd className="mt-1 font-semibold">{v.pm}</dd>
+                    </div>
+                  </dl>
+                </article>
+              ))}
+            </div>
+            <p className="mx-auto mt-12 max-w-3xl text-center text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
+              ChatGPT dùng để tra cứu khi rảnh rỗi.
+              <br />
+              <span className="text-accent-400">The Paradox Matrix dùng để cứu tiền khi doanh nghiệp gặp bão.</span>
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Link href="#kiem-tra" className="rounded-xl bg-white px-6 py-3 text-sm font-semibold text-ink-900 hover:bg-ink-100">
+                Thử miễn phí với số liệu của bạn
+              </Link>
+              <Link
+                href="#bang-gia"
+                className="rounded-xl border border-white/20 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
+              >
+                Xem bảng giá
+              </Link>
+            </div>
           </div>
         </section>
 
