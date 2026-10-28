@@ -75,7 +75,7 @@ export default function LearnMorePage() {
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-600 sm:text-lg">
             Đọc trang này trong 5 phút, bạn sẽ biết mỗi bẫy trông như thế nào ngoài đời, vì sao não mình dễ mắc, một câu hỏi để tự kiểm tra,
-            và công cụ nào giúp bạn thoát ra.
+            và công cụ nào trên nền tảng The Paradox Matrix giúp bạn thoát ra.
           </p>
           <nav className="mt-8 flex flex-wrap gap-2 text-sm">
             {TRAPS.map((t) => (

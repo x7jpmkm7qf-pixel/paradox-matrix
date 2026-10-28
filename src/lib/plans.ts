@@ -65,7 +65,7 @@ export const PLANS: Plan[] = [
     perks: [
       "Huấn luyện viên 1:1 mỗi tháng (30 phút) trong 12 tháng đầu",
       "Nhóm Zalo riêng của 100 thành viên sáng lập",
-      "Mọi công cụ ra sau này, trọn đời không trả thêm",
+      "Mọi công cụ mới trên nền tảng, trọn đời không trả thêm",
       "Giá giữ nguyên mãi mãi, không phí gia hạn",
     ],
     badge: "Chỉ 100 suất",
@@ -107,7 +107,7 @@ export const planByTag = (tag: string) => [...PLANS, FOUNDER_LATE].find((p) => p
 export const vnd = (n: number) => `${n.toLocaleString("vi-VN")}đ`;
 
 export const FREE_FEATURES = [
-  "Cả 3 công cụ: Tiếc tiền, Báo cáo đánh lừa, Bỏ cuộc quá sớm",
+  "Vào nền tảng với cả 3 công cụ: Tiếc tiền, Báo cáo đánh lừa, Bỏ cuộc quá sớm",
   "Dữ liệu mẫu theo ngành, xem thoải mái",
   "3 lượt xem kết luận với số liệu của bạn",
 ];

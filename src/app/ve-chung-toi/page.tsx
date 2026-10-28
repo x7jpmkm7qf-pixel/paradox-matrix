@@ -22,8 +22,8 @@ const MILESTONES = [
   },
   {
     label: "Hôm nay",
-    title: "Đóng gói cách làm thành công cụ",
-    body: "The Paradox Matrix là chính bộ luật anh Sơn dùng để quyết định mỗi ngày, được viết lại thành công cụ để chủ doanh nghiệp nào cũng dùng được, không cần biết toán.",
+    title: "Đóng gói cách làm thành một nền tảng",
+    body: "The Paradox Matrix là chính bộ luật anh Sơn dùng để quyết định mỗi ngày, được xây thành một nền tảng để chủ doanh nghiệp nào cũng dùng được, không cần biết toán.",
   },
 ];
 
@@ -54,7 +54,7 @@ export default function AboutPage() {
         <section className="mx-auto max-w-4xl px-4 pb-12 pt-14 sm:px-6 sm:pt-20">
           <p className="font-mono text-xs text-accent-600">Về chúng tôi</p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight text-ink-900 sm:text-5xl">
-            Chúng tôi làm ra công cụ này vì đã tự trả giá cho những quyết định theo cảm giác.
+            Chúng tôi xây nền tảng này vì đã tự trả giá cho những quyết định theo cảm giác.
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-600 sm:text-lg">
             The Paradox Matrix không đến từ phòng thí nghiệm hay giảng đường. Nó đến từ nhiều năm tự bỏ tiền ra kinh doanh, và từ những lần
@@ -95,8 +95,9 @@ export default function AboutPage() {
                 kể đã đổ vào bao nhiêu.
               </p>
               <p>
-                The Paradox Matrix là bộ luật đó, được đóng gói thành công cụ. Bạn không cần biết toán, không cần học thống kê. Bạn chỉ cần
-                những con số mình đã có, và 5 phút.
+                The Paradox Matrix là bộ luật đó, được xây thành một nền tảng: bộ công cụ tính sẵn, người đồng hành 1:1 và một cộng đồng chủ
+                doanh nghiệp cùng chí hướng. Bạn không cần biết toán, không cần học thống kê. Bạn chỉ cần những con số mình đã có, và 5
+                phút.
               </p>
             </div>
           </div>

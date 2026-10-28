@@ -10,11 +10,13 @@ const mono = JetBrains_Mono({ subsets: ["latin", "vietnamese"], variable: "--fon
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: "The Paradox Matrix · Ra quyết định tốt hơn trực giác",
-  description: "Đang đổ thêm tiền vào thứ lỗ? Báo cáo đang đánh lừa bạn? Nhập số liệu của bạn, 5 phút biết ngay. Dùng thử miễn phí.",
+  title: "The Paradox Matrix · Nền tảng ra quyết định bằng con số",
+  description:
+    "Nền tảng giúp chủ doanh nghiệp Việt ra quyết định bằng con số: đang đổ tiền vào thứ lỗ? Báo cáo đang đánh lừa bạn? Nhập số liệu, 5 phút biết ngay. Dùng thử miễn phí.",
   openGraph: {
-    title: "The Paradox Matrix · Ra quyết định tốt hơn trực giác",
-    description: "3 cái bẫy khiến chủ doanh nghiệp mất tiền nhiều nhất. Nhập số liệu của bạn, 5 phút biết mình có đang mắc bẫy không.",
+    title: "The Paradox Matrix · Nền tảng ra quyết định bằng con số",
+    description:
+      "Nền tảng ra quyết định cho chủ doanh nghiệp. 3 cái bẫy khiến chủ doanh nghiệp mất tiền nhiều nhất. Nhập số liệu của bạn, 5 phút biết mình có đang mắc bẫy không.",
     locale: "vi_VN",
     type: "website",
     siteName: "The Paradox Matrix",

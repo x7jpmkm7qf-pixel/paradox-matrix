@@ -8,7 +8,7 @@ export function Footer() {
         <div>
           <p className="font-semibold text-ink-900">{SITE.name}</p>
           <p className="mt-2 leading-relaxed">
-            Sản phẩm của hệ{" "}
+            Nền tảng ra quyết định bằng con số, thuộc hệ{" "}
             <a href={SITE.brandUrl} className="underline hover:text-ink-900">
               {SITE.brand}
             </a>
