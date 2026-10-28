@@ -13,6 +13,8 @@ export interface Plan {
   /** Plan the perks build on ("Mọi thứ trong gói …"). */
   includes: string;
   perks: string[];
+  /** Headline perk shown in its own box above the list. */
+  highlight?: { title: string; body: string };
   badge?: string;
 }
 
@@ -48,10 +50,14 @@ export const PLANS: Plan[] = [
     period: "/năm",
     note: "≈ 104.000đ/tháng, rẻ hơn 2 gói 6 tháng 107.000đ",
     includes: "Mọi thứ trong Pro 6 tháng",
+    highlight: {
+      title: "Có người cùng bạn soi số",
+      body: "Mỗi quý 1 buổi 1:1 (30 phút) với huấn luyện viên, cùng bạn soi một quyết định thật trước khi xuống tiền.",
+    },
     perks: [
-      "1 buổi 1:1 với huấn luyện viên mỗi quý (30 phút): cùng bạn soi một quyết định thật",
       "Hỗ trợ Zalo ưu tiên, trả lời trong 4 giờ",
-      "Được dùng trước các công cụ mới",
+      "Dùng trước mọi công cụ mới, trước gói 6 tháng",
+      "Giữ nguyên giá 1.249.000đ khi gia hạn năm sau",
     ],
     badge: "Phổ biến nhất",
   },
@@ -64,8 +70,13 @@ export const PLANS: Plan[] = [
     period: "trọn đời",
     note: "Rẻ hơn 2 năm Pro, dùng mãi mãi",
     includes: "Mọi thứ trong Pro năm",
+    highlight: {
+      title: "Zalo trực tiếp với anh Sơn",
+      body: "Nối thẳng với người sáng lập, cũng là người xây nền tảng. Sắp ra quyết định lớn, bạn nhắn để được cố vấn trực tiếp, không qua trung gian.",
+    },
     perks: [
       "Huấn luyện viên 1:1 mỗi tháng (30 phút) trong 12 tháng đầu",
+      "Đặt hàng công cụ: bạn nêu bài toán đang gặp, chúng tôi ưu tiên xây",
       "Nhóm Zalo riêng của 100 thành viên sáng lập",
       "Mọi công cụ mới trên nền tảng, trọn đời không trả thêm",
       "Giá giữ nguyên mãi mãi, không phí gia hạn",

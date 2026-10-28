@@ -55,6 +55,14 @@ export function PricingTable({ founder }: { founder: FounderOffer }) {
               </p>
               <p className={`mt-1 text-xs ${featured ? "text-accent-200" : "text-ink-500"}`}>{plan.note}</p>
               {featured && <p className="mt-2 text-xs font-semibold text-amber-300">{founderLadder(founder)}</p>}
+              {plan.highlight && (
+                <div
+                  className={`mt-5 rounded-xl border p-3.5 ${featured ? "border-amber-300/40 bg-amber-300/10" : "border-accent-200 bg-accent-50"}`}
+                >
+                  <p className={`text-sm font-semibold ${featured ? "text-amber-200" : "text-accent-700"}`}>★ {plan.highlight.title}</p>
+                  <p className={`mt-1 text-xs leading-relaxed ${featured ? "text-ink-200" : "text-ink-600"}`}>{plan.highlight.body}</p>
+                </div>
+              )}
               <ul className={`mt-5 flex-1 space-y-2 text-sm ${featured ? "text-ink-200" : "text-ink-600"}`}>
                 <li className="flex gap-2">
                   <span className={featured ? "text-accent-300" : "text-accent-600"}>✓</span>
