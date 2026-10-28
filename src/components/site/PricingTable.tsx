@@ -14,7 +14,7 @@ export function PricingTable({ founder }: { founder: FounderOffer }) {
         <div className="flex flex-col rounded-2xl border border-ink-200 bg-white p-6">
           <p className="text-sm font-semibold text-ink-900">Miễn phí</p>
           <p className="mt-3 text-3xl font-semibold tracking-tight text-ink-900">0đ</p>
-          <p className="mt-1 text-xs text-ink-500">Không cần đăng ký</p>
+          <p className="mt-1 text-xs text-ink-500">Xem số mẫu không cần đăng ký</p>
           <ul className="mt-5 flex-1 space-y-2 text-sm text-ink-600">
             {FREE_FEATURES.map((f) => (
               <li key={f} className="flex gap-2">

@@ -109,5 +109,5 @@ export const vnd = (n: number) => `${n.toLocaleString("vi-VN")}đ`;
 export const FREE_FEATURES = [
   "Vào nền tảng với cả 3 công cụ: Tiếc tiền, Báo cáo đánh lừa, Bỏ cuộc quá sớm",
   "Dữ liệu mẫu theo ngành, xem thoải mái",
-  "3 lượt xem kết luận với số liệu của bạn",
+  "3 lượt xem kết luận với số liệu của bạn (cần tạo tài khoản miễn phí)",
 ];

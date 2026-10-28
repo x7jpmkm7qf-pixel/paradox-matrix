@@ -172,7 +172,7 @@ const FAQ = [
   },
   {
     q: "Dùng miễn phí được bao nhiêu?",
-    a: "Dữ liệu mẫu xem thoải mái, không giới hạn. Với số liệu của chính bạn, bạn được xem trọn kết luận 3 lần miễn phí. Sau đó nâng cấp Pro để dùng không giới hạn, từ 149.900đ/tháng.",
+    a: "Bài kiểm tra và dữ liệu mẫu dùng thoải mái, không cần đăng ký. Với số liệu của chính bạn, bạn tạo một tài khoản miễn phí (chỉ cần email) và được xem trọn kết luận 3 lần. Sau đó nâng cấp Pro để dùng không giới hạn, từ 149.900đ/tháng.",
   },
   {
     q: "Sao tôi không tự hỏi ChatGPT hay Claude cho rẻ?",
@@ -188,15 +188,15 @@ const FAQ = [
   },
   {
     q: "Tôi có kế toán rồi, cần gì cái này?",
-    a: "Kế toán ghi lại chuyện đã xảy ra. Công cụ này giúp bạn quyết định chuyện sắp xảy ra.",
+    a: "Kế toán ghi lại chuyện đã xảy ra. The Paradox Matrix giúp bạn quyết định chuyện sắp xảy ra.",
   },
   {
     q: "Ai đứng sau The Paradox Matrix?",
-    a: "Anh Hán Văn Sơn, người sáng lập Pharmatech AS và hệ Tâm Lý Học VN. Công cụ được đóng gói từ chính cách anh ra quyết định kinh doanh mỗi ngày. Xem thêm ở trang Về chúng tôi.",
+    a: "Anh Hán Văn Sơn, người sáng lập Pharmatech AS và hệ Tâm Lý Học VN. Nền tảng được xây từ chính cách anh ra quyết định kinh doanh mỗi ngày. Xem thêm ở trang Về chúng tôi.",
   },
   {
     q: "Có cần cài đặt hay đăng ký tài khoản không?",
-    a: "Không. Mở trình duyệt là dùng được, trên máy tính hay điện thoại đều được. Khi nâng cấp Pro, bạn nhận một mã đơn để mở khoá trên máy khác.",
+    a: "Không cần cài gì, mở trình duyệt là dùng được, trên máy tính hay điện thoại đều được. Bài kiểm tra và số mẫu không cần đăng ký. Để xem kết luận với số của bạn, bạn tạo tài khoản miễn phí bằng email; Pro và lượt dùng sẽ đi theo tài khoản trên mọi máy.",
   },
   {
     q: "Thanh toán thế nào, bao lâu thì dùng được Pro?",
@@ -268,7 +268,7 @@ export default async function Landing() {
                 </Link>
               </div>
               <ul className="mt-5 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-ink-400 lg:justify-start">
-                {["Mất 2 phút", "Không cần đăng ký", "Số liệu không rời khỏi máy bạn"].map((t) => (
+                {["Mất 2 phút", "Kiểm tra không cần đăng ký", "Số liệu không rời khỏi máy bạn"].map((t) => (
                   <li key={t} className="flex items-center gap-1.5">
                     <span className="text-emerald-400">✓</span>
                     {t}
