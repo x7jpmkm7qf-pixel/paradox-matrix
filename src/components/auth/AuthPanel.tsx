@@ -216,7 +216,7 @@ export function AuthPanel({ mode, next, compact }: AuthPanelProps) {
             autoComplete="one-time-code"
             required
             pattern="[0-9]{6,10}"
-            placeholder="Mã 6 số"
+            placeholder="Mã xác nhận"
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
             className={`${input} text-center font-mono text-lg tracking-[0.4em]`}
