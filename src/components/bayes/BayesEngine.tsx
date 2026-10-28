@@ -21,7 +21,7 @@ export function BayesEngine() {
   return (
     <div className="space-y-6">
       <BayesUpdater inputs={inputs} onChange={setInputs} />
-      <SunkCostAnalyzer posterior={posterior} />
+      <SunkCostAnalyzer posterior={posterior} sampleOdds={JSON.stringify(inputs) === JSON.stringify(DEFAULT_INPUTS)} />
       <MontyHallSimulator />
     </div>
   );

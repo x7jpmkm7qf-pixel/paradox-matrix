@@ -133,6 +133,10 @@ const VS_AI = [
 
 const FAQ = [
   {
+    q: "Dùng miễn phí được bao nhiêu?",
+    a: "Dữ liệu mẫu xem thoải mái, không giới hạn. Với số liệu của chính bạn, bạn được xem trọn kết luận 3 lần miễn phí. Sau đó nâng cấp Pro để dùng không giới hạn, từ 149.900đ/tháng.",
+  },
+  {
     q: "Sao tôi không tự hỏi ChatGPT hay Claude cho rẻ?",
     a: "Bạn hoàn toàn có thể hỏi. Nhưng AI chung chung đưa lý thuyết và câu “tuỳ trường hợp”, còn công cụ này đưa một quyết định từ số liệu thật của bạn, trong 2 phút, với khung câu hỏi không cho bạn tự trấn an. Xem phần so sánh ngay phía trên bảng giá.",
   },

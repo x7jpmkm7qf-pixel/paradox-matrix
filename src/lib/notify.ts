@@ -2,12 +2,14 @@ import "server-only";
 import { createHash } from "node:crypto";
 import type { Plan } from "./plans";
 
-/** Reports a paid order to the owner's Telegram (same bot/chat as tamlyhocvn.club). */
-export async function notifyTelegram(code: string, plan: Plan, amount: number): Promise<void> {
+/** Sends an HTML message to the owner's Telegram (same bot/chat as tamlyhocvn.club). */
+async function sendTelegram(text: string): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chats = (process.env.TELEGRAM_CHAT_ID ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  const chats = (process.env.TELEGRAM_CHAT_ID ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
   if (!token || chats.length === 0) return;
-  const text = `💰 <b>Paradox Matrix</b> +${amount.toLocaleString("vi-VN")}đ\nGói: ${plan.name}\nMã đơn: <code>${code}</code>`;
   await Promise.all(
     chats.map((chat_id) =>
       fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -16,6 +18,20 @@ export async function notifyTelegram(code: string, plan: Plan, amount: number): 
         body: JSON.stringify({ chat_id, text, parse_mode: "HTML" }),
       }).catch(() => undefined),
     ),
+  );
+}
+
+/** Reports a paid order. */
+export function notifyTelegram(code: string, plan: Plan, amount: number): Promise<void> {
+  return sendTelegram(`💰 <b>Paradox Matrix</b> +${amount.toLocaleString("vi-VN")}đ\nGói: ${plan.name}\nMã đơn: <code>${code}</code>`);
+}
+
+const escapeHtml = (v: string) => v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+/** Reports a free user who left their Zalo number after seeing a verdict. */
+export function notifyLead(phone: string, tool: string, summary: string): Promise<void> {
+  return sendTelegram(
+    `📇 <b>Paradox Matrix · khách để lại Zalo</b>\nZalo: <code>${phone}</code>\nCông cụ: ${escapeHtml(tool)}\nKết luận: ${escapeHtml(summary)}\n→ Nhắn gửi tóm tắt + mời nâng cấp Pro.`,
   );
 }
 
@@ -53,7 +69,12 @@ export async function sendCapiPurchase(opts: {
           action_source: "website",
           event_source_url: opts.url,
           user_data,
-          custom_data: { currency: "VND", value: opts.amount, content_name: `Paradox Matrix ${opts.plan.name}`, content_ids: [opts.plan.id] },
+          custom_data: {
+            currency: "VND",
+            value: opts.amount,
+            content_name: `Paradox Matrix ${opts.plan.name}`,
+            content_ids: [opts.plan.id],
+          },
         },
       ],
     }),

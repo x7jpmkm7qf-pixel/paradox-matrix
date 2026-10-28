@@ -5,19 +5,31 @@ import { Bar, BarChart, Cell, CartesianGrid, ReferenceLine, ResponsiveContainer,
 import { Card } from "@/components/ui/Card";
 import { NumberField } from "@/components/ui/NumberField";
 import { Alert } from "@/components/ui/Alert";
+import { VerdictGate } from "@/components/pro/VerdictGate";
 import { axisProps, chartColors, tooltipStyle } from "@/components/ui/chartTheme";
 import { evaluateDecision } from "@/lib/bayes";
 import { money, pct } from "@/lib/format";
 
 interface SunkCostAnalyzerProps {
   posterior: number;
+  /** True while Step 1 still holds the sample numbers. */
+  sampleOdds: boolean;
 }
 
-export function SunkCostAnalyzer({ posterior }: SunkCostAnalyzerProps) {
-  const [sunkCost, setSunkCost] = useState(500);
-  const [remainingCost, setRemainingCost] = useState(300);
-  const [payoff, setPayoff] = useState(1200);
-  const [alternativeValue, setAlternativeValue] = useState(250);
+const SAMPLE = { sunkCost: 500, remainingCost: 300, payoff: 1200, alternativeValue: 250 };
+
+const VERDICT_SUMMARY = {
+  continue: "Nên chi tiếp",
+  "sunk-cost-trap": "Đang chạy tiếp chỉ vì tiếc tiền, nên dừng",
+  stop: "Nên dừng hoặc chuyển hướng",
+} as const;
+
+export function SunkCostAnalyzer({ posterior, sampleOdds }: SunkCostAnalyzerProps) {
+  const [sunkCost, setSunkCost] = useState(SAMPLE.sunkCost);
+  const [remainingCost, setRemainingCost] = useState(SAMPLE.remainingCost);
+  const [payoff, setPayoff] = useState(SAMPLE.payoff);
+  const [alternativeValue, setAlternativeValue] = useState(SAMPLE.alternativeValue);
+  const money4 = { sunkCost, remainingCost, payoff, alternativeValue };
 
   const decision = useMemo(
     () => evaluateDecision({ posterior, sunkCost, remainingCost, payoff, alternativeValue }),
@@ -85,19 +97,28 @@ export function SunkCostAnalyzer({ posterior }: SunkCostAnalyzerProps) {
             </ResponsiveContainer>
           </div>
 
-          <VerdictAlert
-            verdict={decision.verdict}
-            evContinue={decision.evContinue}
-            evStop={decision.evStop}
-            sunkCost={sunkCost}
-            remainingCost={remainingCost}
-          />
+          <VerdictGate
+            tool="sunk-cost"
+            fingerprint={JSON.stringify([posterior, money4])}
+            isSample={sampleOdds && JSON.stringify(money4) === JSON.stringify(SAMPLE)}
+            summary={`${VERDICT_SUMMARY[decision.verdict]} (chi thêm ${money(remainingCost)}, đã chi ${money(sunkCost)})`}
+          >
+            <div className="space-y-4">
+              <VerdictAlert
+                verdict={decision.verdict}
+                evContinue={decision.evContinue}
+                evStop={decision.evStop}
+                sunkCost={sunkCost}
+                remainingCost={remainingCost}
+              />
 
-          <p className="text-xs leading-relaxed text-ink-500">
-            Ngưỡng hòa vốn: dự án cần xác suất thành công tối thiểu{" "}
-            <b className="font-mono text-ink-700">{pct(Math.min(1, Math.max(0, decision.breakEvenProbability)))}</b> mới đáng để tiếp tục.
-            Khoản {money(sunkCost)} đã chi không xuất hiện trong phép tính này, vì nó giống nhau ở mọi lựa chọn.
-          </p>
+              <p className="text-xs leading-relaxed text-ink-500">
+                Ngưỡng hòa vốn: dự án cần xác suất thành công tối thiểu{" "}
+                <b className="font-mono text-ink-700">{pct(Math.min(1, Math.max(0, decision.breakEvenProbability)))}</b> mới đáng để tiếp
+                tục. Khoản {money(sunkCost)} đã chi không xuất hiện trong phép tính này, vì nó giống nhau ở mọi lựa chọn.
+              </p>
+            </div>
+          </VerdictGate>
         </div>
       </div>
     </Card>

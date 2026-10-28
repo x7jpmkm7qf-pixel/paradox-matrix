@@ -7,6 +7,7 @@ import { NumberField } from "@/components/ui/NumberField";
 import { Segmented } from "@/components/ui/Segmented";
 import { GrowthChart } from "./GrowthChart";
 import { GrowthInsights } from "./GrowthInsights";
+import { VerdictGate } from "@/components/pro/VerdictGate";
 import { buildGrowthSeries, exponentialAt, findTippingPoint, GROWTH_PRESETS, type GrowthInputs } from "@/lib/growth";
 import { num, pct } from "@/lib/format";
 
@@ -127,13 +128,24 @@ export function ExponentialSimulator() {
           showDecline={showDecline}
         />
         <div className="mt-6">
-          <GrowthInsights
-            inputs={inputs}
-            tippingPoint={tippingPoint}
-            quitPoint={safeQuit}
-            unit={preset.unit}
-            periodLabel={preset.periodLabel}
-          />
+          <VerdictGate
+            tool="growth"
+            fingerprint={JSON.stringify([inputs, safeQuit])}
+            isSample={JSON.stringify(inputs) === JSON.stringify(preset.inputs)}
+            summary={
+              tippingPoint !== null && safeQuit < tippingPoint
+                ? `Đang bỏ cuộc ở ${preset.periodLabel} ${safeQuit}, ngay trước điểm bùng phát (${preset.periodLabel} ${Math.ceil(tippingPoint)})`
+                : `Dừng ở ${preset.periodLabel} ${safeQuit}: đã qua vùng thất vọng`
+            }
+          >
+            <GrowthInsights
+              inputs={inputs}
+              tippingPoint={tippingPoint}
+              quitPoint={safeQuit}
+              unit={preset.unit}
+              periodLabel={preset.periodLabel}
+            />
+          </VerdictGate>
         </div>
       </Card>
     </div>
