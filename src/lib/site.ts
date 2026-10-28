@@ -7,8 +7,8 @@ export const SITE = {
   /** Canonical origin for metadata, sitemap and share images. */
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://paradox-matrix-lyart.vercel.app",
   operator: process.env.NEXT_PUBLIC_SELLER_NAME || "NORWAY PHARMATECH AS MEDICINE",
-  zalo: process.env.NEXT_PUBLIC_SUPPORT_ZALO || "0377418438",
-  zaloDisplay: process.env.NEXT_PUBLIC_SUPPORT_ZALO_DISPLAY || "0377 418 438",
+  zalo: process.env.NEXT_PUBLIC_SUPPORT_ZALO || "0961588227",
+  zaloDisplay: process.env.NEXT_PUBLIC_SUPPORT_ZALO_DISPLAY || "0961 588 227",
   email: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@tamlyhocvn.club",
   /** Customer how-to PDF, served from public/. */
   guideUrl: "/huong-dan-su-dung.pdf",
