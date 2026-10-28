@@ -129,6 +129,14 @@ export function ExponentialSimulator() {
         />
         <div className="mt-6">
           <VerdictGate
+            impact={
+              tippingPoint !== null && safeQuit < tippingPoint
+                ? {
+                    teaser: `Điểm bạn định dừng nằm rất gần một mốc quan trọng. Xem đó là mốc gì.`,
+                    headline: `Bạn vừa tránh bỏ cuộc ngay trước điểm bùng phát: chỉ cần trụ thêm ${Math.ceil(tippingPoint - safeQuit)} ${preset.periodLabel}.`,
+                  }
+                : null
+            }
             tool="growth"
             fingerprint={JSON.stringify([inputs, safeQuit])}
             isSample={JSON.stringify(inputs) === JSON.stringify(preset.inputs)}
