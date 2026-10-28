@@ -34,7 +34,7 @@ export function ProButton({ onClick, children, feature, variant }: ProButtonProp
         <span className="absolute left-0 top-full z-20 mt-2 block w-72 rounded-xl border border-ink-200 bg-white p-4 text-left shadow-lg">
           <span className="block text-sm font-semibold text-ink-900">{feature} là tính năng Pro</span>
           <span className="mt-1 block text-xs leading-relaxed text-ink-600">
-            Mở khoá kết luận không giới hạn, nhập/xuất Excel và báo cáo PDF từ 699.000đ cho 6 tháng. Thanh toán bằng QR ngân hàng, kích hoạt
+            Mở khoá kết luận không giới hạn, nhập/xuất Excel và báo cáo PDF từ 678.000đ cho 6 tháng. Thanh toán bằng QR ngân hàng, kích hoạt
             tự động trong vài giây.
           </span>
           <span className="mt-3 flex gap-2">
