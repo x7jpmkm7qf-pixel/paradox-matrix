@@ -177,7 +177,7 @@ const FAQ = [
   },
   {
     q: "Dùng miễn phí được bao nhiêu?",
-    a: "Bài kiểm tra và dữ liệu mẫu dùng thoải mái, không cần đăng ký. Với số liệu của chính bạn, bạn tạo một tài khoản miễn phí (chỉ cần email) và được xem trọn kết luận 3 lần. Sau đó nâng cấp Pro để dùng không giới hạn, từ 149.900đ/tháng.",
+    a: "Bài kiểm tra và dữ liệu mẫu dùng thoải mái, không cần đăng ký. Với số liệu của chính bạn, bạn tạo một tài khoản miễn phí (chỉ cần email) và được xem trọn kết luận 3 lần. Sau đó nâng cấp Pro để dùng không giới hạn, từ 699.000đ cho 6 tháng (khoảng 116.000đ mỗi tháng).",
   },
   {
     q: "Sao tôi không tự hỏi ChatGPT hay Claude cho rẻ?",

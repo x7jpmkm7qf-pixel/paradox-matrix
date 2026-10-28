@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { AuthPanel } from "@/components/auth/AuthPanel";
 import { FounderGroupLink } from "@/components/pro/FounderGroupLink";
 import { usePro } from "@/components/pro/ProProvider";
-import { findPlan } from "@/lib/plans";
+import { findAnyPlan } from "@/lib/plans";
 import { FREE_VERDICTS } from "@/lib/trial";
 
 export function Account() {
@@ -29,7 +29,7 @@ export function Account() {
       <div className="mt-6 rounded-xl bg-ink-50 p-4 text-sm text-ink-700">
         {isPro ? (
           <p>
-            Gói <b>{findPlan(plan)?.name ?? plan}</b> ·{" "}
+            Gói <b>{findAnyPlan(plan)?.name ?? plan}</b> ·{" "}
             {expiresAt ? `hết hạn ngày ${new Date(expiresAt).toLocaleDateString("vi-VN")}` : "trọn đời"}
           </p>
         ) : (

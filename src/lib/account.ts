@@ -1,7 +1,7 @@
 import "server-only";
 import { ensureSchema, sql } from "./db";
 import { verifyLicense } from "./license";
-import { findPlan } from "./plans";
+import { findAnyPlan } from "./plans";
 import { FREE_VERDICTS } from "./trial";
 
 /** Founder-only Zalo group; served only to founder accounts so the link stays out of the public bundle. */
@@ -69,7 +69,7 @@ export type ClaimResult = "ok" | "invalid" | "taken";
 /** Attaches a paid license to the account; an order code can belong to one account only. */
 export async function claimLicense(userId: string, token: string): Promise<ClaimResult> {
   const payload = verifyLicense(token);
-  if (!payload || !findPlan(payload.p)) return "invalid";
+  if (!payload || !findAnyPlan(payload.p)) return "invalid";
   await ensureSchema();
   await sql`
     insert into pm_licenses (order_code, user_id, plan, paid_at, expires_at)
