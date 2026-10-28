@@ -5,6 +5,8 @@ import { PricingTable } from "@/components/site/PricingTable";
 import { Quiz } from "@/components/site/Quiz";
 import { HeroPreview } from "@/components/site/HeroPreview";
 import { TrapArt } from "@/components/site/TrapArt";
+import { MiniSim } from "@/components/site/MiniSim";
+import { StickyFounderCta } from "@/components/site/StickyFounderCta";
 import { FOUNDER_SEATS, founderOffer, vnd } from "@/lib/plans";
 import { founderSeatsSold } from "@/lib/sepay";
 
@@ -42,6 +44,7 @@ const TOOLS = [
     body: "Nhập số đã chi và kết quả từng tuần. Công cụ cập nhật cơ hội thắng thật sự sau mỗi đợt số liệu mới, và bật cảnh báo đỏ khi lý do duy nhất để chạy tiếp là tiếc tiền.",
     when: "Phân vân có nên bơm thêm tiền quảng cáo, tuyển thêm người, mở thêm điểm bán.",
     href: "/app#bayes",
+    sim: "bayes" as const,
   },
   {
     n: "②",
@@ -49,6 +52,7 @@ const TOOLS = [
     body: "Dán bảng số liệu từ Excel hay Google Sheets. Công cụ tự tách theo nhóm khách, kênh, khu vực, rồi chỉ ra chỗ con số tổng đang nói ngược với thực tế.",
     when: "Sắp thưởng, cắt ngân sách hay chọn kênh dựa trên báo cáo tổng.",
     href: "/app#simpson",
+    sim: "simpson" as const,
   },
   {
     n: "③",
@@ -56,6 +60,7 @@ const TOOLS = [
     body: "Nhập tốc độ tăng hiện tại. Công cụ vẽ ra đoạn phẳng còn kéo dài bao lâu và điểm bật nằm ở đâu, để bạn quyết dừng hay trụ bằng con số, không bằng cảm xúc.",
     when: "Muốn bỏ một kênh nội dung, một sản phẩm mới, một thị trường mới.",
     href: "/app#exponential",
+    sim: "exponential" as const,
   },
 ];
 
@@ -359,10 +364,9 @@ export default async function Landing() {
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {TOOLS.map((t) => (
-              <Link
+              <div
                 key={t.name}
-                href={t.href}
-                className="group flex flex-col rounded-2xl border border-ink-200 bg-white p-6 transition hover:-translate-y-1 hover:border-accent-400 hover:shadow-lg"
+                className="flex flex-col rounded-2xl border border-ink-200 bg-white p-6 transition hover:border-accent-400 hover:shadow-lg"
               >
                 <p className="flex h-10 w-10 items-center justify-center rounded-xl bg-night-900 text-xl text-accent-400">{t.n}</p>
                 <h3 className="mt-2 text-lg font-semibold tracking-tight text-ink-900">{t.name}</h3>
@@ -370,8 +374,13 @@ export default async function Landing() {
                 <p className="mt-4 text-xs leading-relaxed text-ink-500">
                   <span className="font-semibold text-ink-700">Dùng khi:</span> {t.when}
                 </p>
-                <p className="mt-auto pt-4 text-sm font-semibold text-accent-700 group-hover:underline">Thử miễn phí →</p>
-              </Link>
+                <div className="mt-5 flex-1">
+                  <MiniSim kind={t.sim} />
+                </div>
+                <Link href={t.href} className="mt-4 text-sm font-semibold text-accent-700 hover:underline">
+                  Thử với số liệu thật của bạn →
+                </Link>
+              </div>
             ))}
           </div>
         </section>
@@ -599,6 +608,16 @@ export default async function Landing() {
         </section>
       </main>
       <Footer />
+      {!founder.soldOut && (
+        <>
+          {/* Room so the pinned phone bar never covers the footer. */}
+          <div className="h-20 bg-white sm:hidden" aria-hidden="true" />
+          <StickyFounderCta
+            price={vnd(founder.plan.price)}
+            seatsNote={founder.earlyLeft ? `còn ${founder.earlyLeft} suất giá này` : `chỉ ${FOUNDER_SEATS} suất`}
+          />
+        </>
+      )}
     </>
   );
 }
