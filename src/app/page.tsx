@@ -3,6 +3,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PricingTable } from "@/components/site/PricingTable";
 import { Quiz } from "@/components/site/Quiz";
+import { HeroPreview } from "@/components/site/HeroPreview";
+import { TrapArt } from "@/components/site/TrapArt";
 import { FOUNDER_SEATS, founderOffer, vnd } from "@/lib/plans";
 import { founderSeatsSold } from "@/lib/sepay";
 
@@ -15,16 +17,19 @@ const PROOF = [
 const TRAPS = [
   {
     tag: "Bẫy 01 · Doanh thu ảo",
+    art: "report" as const,
     title: "“Báo cáo nói kênh này tốt. Bạn dồn tiền vào. Rồi lỗ.”",
     body: "Nhìn tổng, chi nhánh A chốt đơn 78%, B chỉ 69%. Bạn thưởng A, cắt ngân sách B. Nhưng tách ra từng nhóm khách thì B thắng ở mọi nhóm. A trông đẹp chỉ vì được giao toàn khách dễ. Con số tổng không sai, nó chỉ đang giấu sự thật.",
   },
   {
     tag: "Bẫy 02 · Tiếc tiền đã chi",
+    art: "sunk" as const,
     title: "“Đã lỡ đổ 50 triệu rồi, giờ dừng thì phí.”",
     body: "Số tiền đã chi không quay lại, dù bạn chạy tiếp hay dừng. Câu duy nhất đáng hỏi: từ hôm nay, mỗi đồng bỏ thêm còn bao nhiêu cơ hội sinh lời? Lúc đầu là 40%. Sau 3 tháng số liệu thật còn 12%. Nhưng bạn vẫn chạy, vì cảm giác không chịu cập nhật.",
   },
   {
     tag: "Bẫy 03 · Mong kết quả đi thẳng",
+    art: "growth" as const,
     title: "“Làm 2 tháng không thấy gì, chắc không hợp với mình.”",
     body: "Nội dung, thương hiệu, tệp khách quen tăng theo kiểu lì rất lâu rồi bật lên rất nhanh. Phần lớn người bỏ cuộc đúng ở đoạn phẳng nhất, khi chỉ còn vài tuần nữa là tới điểm bật. Người đến sau nhặt lại đúng thứ bạn vừa bỏ.",
   },
@@ -73,6 +78,12 @@ const CASES = [
       "Sau 9 tuần đăng TikTok, lượt theo dõi gần như đứng im. Máy dự báo cho thấy tốc độ tăng vẫn đều 8% mỗi tuần, điểm bật rơi vào khoảng tuần 14.",
     result: "Trụ thêm 6 tuần, kênh vượt 10.000 người theo dõi.",
   },
+];
+
+const QUESTIONS = [
+  ["01", "Có nên chi tiếp?", "/app#bayes"],
+  ["02", "Báo cáo có đang nói dối?", "/app#simpson"],
+  ["03", "Bỏ hay trụ thêm?", "/app#exponential"],
 ];
 
 const STEPS = [
@@ -178,58 +189,102 @@ export default async function Landing() {
   return (
     <>
       <Header />
-      <div className="bg-ink-900 px-4 py-2 text-center text-xs font-medium text-white sm:text-sm">
-        Ưu đãi Sáng lập: dùng trọn đời {vnd(founder.plan.price)},{" "}
-        {founder.earlyLeft ? `còn ${founder.earlyLeft} suất giá này.` : `chỉ ${FOUNDER_SEATS} suất.`}{" "}
-        <Link href="#bang-gia" className="underline underline-offset-2">
-          Xem ngay
-        </Link>
-      </div>
       <main>
-        <section className="mx-auto max-w-5xl px-4 pb-14 pt-14 text-center sm:px-6 sm:pt-20">
-          <p className="inline-block rounded-full border border-ink-200 bg-white px-3 py-1 text-xs font-medium text-ink-600">
-            Dành cho chủ doanh nghiệp, chủ shop và người kinh doanh một mình
-          </p>
-          <h1 className="mx-auto mt-5 max-w-3xl text-4xl font-semibold tracking-tight text-ink-900 sm:text-5xl">
-            Trực giác của bạn đang âm thầm rút tiền khỏi túi bạn mỗi tháng.
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-ink-600 sm:text-lg">
-            Đổ thêm tiền vào thứ đang lỗ. Tin một bản báo cáo đang nói dối. Bỏ cuộc đúng lúc sắp có kết quả. Người giỏi nghề vẫn mắc cả 3.
-            Trả lời 5 câu hỏi, 2 phút sau bạn biết mình đang mất tiền ở đâu.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="#kiem-tra" className="rounded-xl bg-ink-900 px-6 py-3 text-sm font-semibold text-white hover:bg-ink-800">
-              Kiểm tra miễn phí: tôi đang mắc bẫy nào?
-            </Link>
-            <Link
-              href="#bang-gia"
-              className="rounded-xl border border-ink-200 bg-white px-6 py-3 text-sm font-semibold text-ink-800 hover:bg-ink-50"
-            >
-              Xem bảng giá
-            </Link>
-          </div>
-          <p className="mt-4 text-xs text-ink-500">Mất 2 phút · Không cần đăng ký · Số liệu không rời khỏi máy bạn</p>
+        <section className="relative overflow-hidden bg-night-950 text-white">
+          <div className="pm-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" aria-hidden="true" />
+          <div className="absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-accent-600/25 blur-[120px]" aria-hidden="true" />
+          <div className="absolute -bottom-40 right-0 h-[360px] w-[480px] rounded-full bg-flame-500/10 blur-[120px]" aria-hidden="true" />
 
-          <div className="mx-auto mt-12 grid max-w-4xl gap-3 sm:grid-cols-3">
-            {PROOF.map(([big, small]) => (
-              <div key={big} className="rounded-2xl border border-ink-200 bg-white p-5 text-left">
-                <p className="text-2xl font-semibold tracking-tight text-ink-900">{big}</p>
-                <p className="mt-1 text-sm leading-snug text-ink-600">{small}</p>
+          <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 pb-14 pt-10 sm:px-6 sm:pt-16 lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:pb-20">
+            <div className="animate-rise text-center lg:text-left">
+              <Link
+                href="#bang-gia"
+                className="inline-flex items-center gap-2 rounded-full border border-flame-500/40 bg-flame-500/10 px-3 py-1 text-xs font-medium text-flame-300 hover:bg-flame-500/20"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-flame-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-flame-500" />
+                </span>
+                Ưu đãi Sáng lập: trọn đời {vnd(founder.plan.price)},{" "}
+                {founder.earlyLeft ? `còn ${founder.earlyLeft} suất` : `chỉ ${FOUNDER_SEATS} suất`} →
+              </Link>
+              <p className="mt-5 text-sm font-medium text-accent-300">Dành cho chủ doanh nghiệp, chủ shop và người kinh doanh một mình</p>
+              <h1 className="mt-3 text-[2.15rem] font-bold leading-[1.12] tracking-tight sm:text-5xl lg:text-[3.4rem]">
+                Trực giác của bạn đang âm thầm{" "}
+                <span className="bg-gradient-to-r from-flame-400 to-flame-500 bg-clip-text text-transparent">rút tiền khỏi túi bạn</span> mỗi
+                tháng.
+              </h1>
+              <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg lg:mx-0">
+                Đổ thêm tiền vào thứ đang lỗ. Tin một bản báo cáo đang nói dối. Bỏ cuộc đúng lúc sắp có kết quả. Người giỏi nghề vẫn mắc cả 3.
+                Trả lời 5 câu hỏi, 2 phút sau bạn biết mình đang mất tiền ở đâu.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                <Link
+                  href="#kiem-tra"
+                  className="rounded-xl bg-flame-500 px-6 py-3.5 text-center text-sm font-bold text-night-950 shadow-flame transition hover:-translate-y-0.5 hover:bg-flame-400"
+                >
+                  Kiểm tra miễn phí: tôi đang mắc bẫy nào?
+                </Link>
+                <Link
+                  href="#bang-gia"
+                  className="rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-center text-sm font-semibold text-white hover:bg-white/10"
+                >
+                  Xem bảng giá
+                </Link>
               </div>
-            ))}
+              <ul className="mt-5 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-ink-400 lg:justify-start">
+                {["Mất 2 phút", "Không cần đăng ký", "Số liệu không rời khỏi máy bạn"].map((t) => (
+                  <li key={t} className="flex items-center gap-1.5">
+                    <span className="text-emerald-400">✓</span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-500">3 câu hỏi đáng tiền nhất</p>
+              <div className="mt-3 flex flex-wrap justify-center gap-2 lg:justify-start">
+                {QUESTIONS.map(([n, q, href]) => (
+                  <Link
+                    key={n}
+                    href={href}
+                    className="pm-glass rounded-full px-3.5 py-1.5 text-sm font-medium text-white transition hover:border-accent-400/60 hover:bg-white/10"
+                  >
+                    <span className="mr-1.5 font-semibold text-accent-400">{n}</span>
+                    {q}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <HeroPreview />
+          </div>
+
+          <div className="relative border-t border-white/10 bg-night-900/60">
+            <div className="mx-auto grid max-w-6xl gap-px px-4 sm:grid-cols-3 sm:px-6">
+              {PROOF.map(([big, small]) => (
+                <div key={big} className="py-4 text-center sm:py-6 sm:px-6 sm:text-left">
+                  <p className="text-2xl font-bold tracking-tight text-flame-400 sm:text-3xl">{big}</p>
+                  <p className="mx-auto mt-1 max-w-xs text-sm leading-snug text-ink-300 sm:mx-0">{small}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+        <section className="mx-auto max-w-6xl px-4 pb-16 pt-16 sm:px-6 sm:pt-20">
           <h2 className="mx-auto max-w-3xl text-center text-2xl font-semibold tracking-tight text-ink-900 sm:text-3xl">
             Bạn không mất tiền vì một quyết định ngu ngốc. Bạn mất tiền vì những quyết định nghe rất hợp lý.
           </h2>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {TRAPS.map((t) => (
-              <article key={t.tag} className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
-                <p className="font-mono text-xs text-accent-600">{t.tag}</p>
+              <article key={t.tag} className="overflow-hidden rounded-2xl border border-ink-200 bg-white shadow-card transition hover:-translate-y-1 hover:shadow-lg">
+                <div className="border-b border-ink-100 bg-gradient-to-b from-accent-50 to-white px-6 pb-2 pt-5">
+                  <TrapArt kind={t.art} />
+                </div>
+                <div className="p-6 pt-4">
+                <p className="font-mono text-xs font-semibold text-flame-600">{t.tag}</p>
                 <h3 className="mt-2 text-lg font-semibold tracking-tight text-ink-900">{t.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-600">{t.body}</p>
+                </div>
               </article>
             ))}
           </div>
@@ -243,9 +298,10 @@ export default async function Landing() {
           </p>
         </section>
 
-        <section id="kiem-tra" className="scroll-mt-20 border-y border-ink-200 bg-ink-50">
+        <section id="kiem-tra" className="scroll-mt-20 border-y border-accent-100 bg-gradient-to-b from-accent-50 to-white">
           <div className="mx-auto max-w-2xl px-4 py-14 text-center sm:px-6">
-            <h2 className="text-2xl font-semibold tracking-tight text-ink-900 sm:text-3xl">Bạn đang mắc bẫy nào?</h2>
+            <p className="inline-block rounded-full bg-flame-500/15 px-3 py-1 text-xs font-semibold text-flame-600">Miễn phí · 2 phút</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink-900 sm:text-3xl">Bạn đang mắc bẫy nào?</h2>
             <p className="mt-2 text-sm text-ink-600">5 câu hỏi, mỗi câu 2 lựa chọn. Trả lời theo cách bạn thật sự sẽ làm.</p>
             <div className="mt-8">
               <Quiz />
@@ -265,14 +321,18 @@ export default async function Landing() {
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {TOOLS.map((t) => (
-              <Link key={t.name} href={t.href} className="group rounded-2xl border border-ink-200 bg-white p-6 hover:border-ink-900">
-                <p className="text-2xl text-accent-600">{t.n}</p>
+              <Link
+                key={t.name}
+                href={t.href}
+                className="group flex flex-col rounded-2xl border border-ink-200 bg-white p-6 transition hover:-translate-y-1 hover:border-accent-400 hover:shadow-lg"
+              >
+                <p className="flex h-10 w-10 items-center justify-center rounded-xl bg-night-900 text-xl text-accent-400">{t.n}</p>
                 <h3 className="mt-2 text-lg font-semibold tracking-tight text-ink-900">{t.name}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-600">{t.body}</p>
                 <p className="mt-4 text-xs leading-relaxed text-ink-500">
                   <span className="font-semibold text-ink-700">Dùng khi:</span> {t.when}
                 </p>
-                <p className="mt-4 text-sm font-semibold text-ink-900 group-hover:underline">Thử miễn phí →</p>
+                <p className="mt-auto pt-4 text-sm font-semibold text-accent-700 group-hover:underline">Thử miễn phí →</p>
               </Link>
             ))}
           </div>
@@ -284,7 +344,7 @@ export default async function Landing() {
             <ol className="mt-10 grid gap-4 md:grid-cols-3">
               {STEPS.map(([title, body], i) => (
                 <li key={title} className="rounded-2xl border border-ink-200 bg-white p-6">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink-900 text-sm font-semibold text-white">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-flame-500 text-sm font-bold text-night-950">
                     {i + 1}
                   </span>
                   <h3 className="mt-4 font-semibold text-ink-900">{title}</h3>
@@ -331,7 +391,7 @@ export default async function Landing() {
               </div>
             ))}
           </div>
-          <div className="mt-6 flex flex-col items-start gap-4 rounded-2xl bg-ink-900 p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div className="mt-6 flex flex-col items-start gap-4 rounded-2xl bg-night-900 p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div className="max-w-2xl">
               <p className="text-xs font-semibold uppercase tracking-wide text-ink-300">Người đứng sau</p>
               <p className="mt-2 text-lg font-semibold leading-snug">
@@ -367,8 +427,9 @@ export default async function Landing() {
           </div>
         </section>
 
-        <section id="sao-khong-hoi-ai" className="scroll-mt-20 bg-ink-900 text-white">
-          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+        <section id="sao-khong-hoi-ai" className="relative scroll-mt-20 overflow-hidden bg-night-950 text-white">
+          <div className="pm-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" aria-hidden="true" />
+          <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
             <p className="text-center font-mono text-xs text-ink-300">Câu hỏi ai cũng nghĩ tới</p>
             <h2 className="mx-auto mt-3 max-w-3xl text-center text-2xl font-semibold tracking-tight sm:text-4xl">
               “Sao tôi phải mua, trong khi có thể hỏi ChatGPT hay Claude miễn phí?”
@@ -404,10 +465,10 @@ export default async function Landing() {
             <p className="mx-auto mt-12 max-w-3xl text-center text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
               ChatGPT dùng để tra cứu khi rảnh rỗi.
               <br />
-              <span className="text-accent-400">The Paradox Matrix dùng để cứu tiền khi doanh nghiệp gặp bão.</span>
+              <span className="text-flame-400">The Paradox Matrix dùng để cứu tiền khi doanh nghiệp gặp bão.</span>
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Link href="#kiem-tra" className="rounded-xl bg-white px-6 py-3 text-sm font-semibold text-ink-900 hover:bg-ink-100">
+              <Link href="#kiem-tra" className="rounded-xl bg-flame-500 px-6 py-3 text-sm font-bold text-night-950 shadow-flame hover:bg-flame-400">
                 Thử miễn phí với số liệu của bạn
               </Link>
               <Link
@@ -453,11 +514,15 @@ export default async function Landing() {
               </details>
             ))}
           </div>
-          <div className="mt-14 text-center">
-            <p className="text-2xl font-semibold tracking-tight text-ink-900">Bạn có thể tiếp tục đoán. Hoặc bạn có thể biết.</p>
+          <div className="relative mt-14 overflow-hidden rounded-3xl bg-night-950 px-6 py-12 text-center">
+            <div className="pm-grid absolute inset-0" aria-hidden="true" />
+            <div className="absolute -top-24 left-1/2 h-48 w-96 -translate-x-1/2 rounded-full bg-accent-600/30 blur-3xl" aria-hidden="true" />
+            <p className="relative text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              Bạn có thể tiếp tục đoán. Hoặc bạn có thể <span className="text-flame-400">biết.</span>
+            </p>
             <Link
               href="#kiem-tra"
-              className="mt-6 inline-block rounded-xl bg-ink-900 px-6 py-3 text-sm font-semibold text-white hover:bg-ink-800"
+              className="relative mt-6 inline-block rounded-xl bg-flame-500 px-6 py-3 text-sm font-bold text-night-950 shadow-flame hover:bg-flame-400"
             >
               Kiểm tra miễn phí ngay
             </Link>

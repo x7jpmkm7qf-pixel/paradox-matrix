@@ -34,9 +34,34 @@ const config: Config = {
           800: "#1e35af",
           900: "#1e328a",
         },
+        // Brand night-navy and flame orange, matching the fanpage cover.
+        night: {
+          700: "#1a2440",
+          800: "#111a30",
+          900: "#0a1124",
+          950: "#060a17",
+        },
+        flame: {
+          300: "#ffc27a",
+          400: "#ffa54a",
+          500: "#ff8a1f",
+          600: "#f07208",
+        },
       },
       boxShadow: {
         card: "0 1px 2px rgba(16,16,20,0.04), 0 1px 1px rgba(16,16,20,0.02)",
+        glow: "0 0 0 1px rgba(255,255,255,0.06), 0 30px 80px -20px rgba(37,80,235,0.45)",
+        flame: "0 10px 30px -8px rgba(255,138,31,0.6)",
+      },
+      keyframes: {
+        rise: { from: { opacity: "0", transform: "translateY(14px)" }, to: { opacity: "1", transform: "none" } },
+        draw: { from: { strokeDashoffset: "600" }, to: { strokeDashoffset: "0" } },
+        float: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-6px)" } },
+      },
+      animation: {
+        rise: "rise 0.7s ease-out both",
+        draw: "draw 1.8s ease-out 0.4s both",
+        float: "float 5s ease-in-out infinite",
       },
     },
   },

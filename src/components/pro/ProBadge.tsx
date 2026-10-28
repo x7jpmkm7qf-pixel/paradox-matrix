@@ -14,7 +14,7 @@ export function ProBadge() {
     );
   }
   return (
-    <Link href="/bang-gia" className="whitespace-nowrap rounded-lg bg-ink-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-ink-800">
+    <Link href="/bang-gia" className="whitespace-nowrap rounded-lg bg-flame-500 px-3 py-1.5 text-xs font-semibold text-night-950 hover:bg-flame-400">
       Nâng cấp Pro
     </Link>
   );

@@ -15,6 +15,16 @@
 }
 
 @layer components {
+  /* Faint blueprint grid used on the dark brand sections. */
+  .pm-grid {
+    background-image:
+      linear-gradient(rgba(148, 170, 255, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 170, 255, 0.07) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+  .pm-glass {
+    @apply border border-white/10 bg-white/[0.04] backdrop-blur;
+  }
   .pm-range {
     @apply h-1.5 cursor-pointer appearance-none rounded-full bg-ink-200;
     accent-color: theme("colors.accent.600");
@@ -27,6 +37,15 @@
   }
   .pm-range:focus-visible {
     @apply outline-none ring-2 ring-accent-200;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 
