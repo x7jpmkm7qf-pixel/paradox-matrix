@@ -142,14 +142,41 @@ const VS_AI = [
   },
 ];
 
+const PLATFORM = [
+  {
+    tag: "Công cụ",
+    title: "Một bộ công cụ, mua một lần dùng tất",
+    body: "3 công cụ cho 3 cái bẫy tốn tiền nhất, chung một chỗ. Công cụ mới được thêm vào nền tảng theo thời gian, bạn không phải mua lẻ từng cái.",
+  },
+  {
+    tag: "Cách nghĩ",
+    title: "Một khung quyết định dùng lại mãi",
+    body: "Mỗi lần phân vân, bạn đi đúng một lối: nhập số, đọc kết luận, làm. Dùng vài lần, bạn tự nhận ra bẫy trước cả khi mở máy.",
+  },
+  {
+    tag: "Con người",
+    title: "Có người thật đồng hành",
+    body: "Gói Pro năm và Sáng lập có buổi 1:1 với huấn luyện viên để cùng soi một quyết định thật của bạn, không chỉ đọc kết quả một mình.",
+  },
+  {
+    tag: "Cộng đồng",
+    title: "Một nhóm chủ doanh nghiệp cùng chí hướng",
+    body: "Thành viên Sáng lập vào nhóm Zalo riêng: hỏi nhau, chia sẻ quyết định đã cứu tiền thế nào, và góp ý công cụ tiếp theo nên làm gì.",
+  },
+];
+
 const FAQ = [
+  {
+    q: "The Paradox Matrix là công cụ hay nền tảng?",
+    a: "Là nền tảng. Bên trong có bộ công cụ ra quyết định (hiện có 3, sẽ thêm dần), huấn luyện viên 1:1 cho gói Pro năm và Sáng lập, và cộng đồng thành viên Sáng lập. Bạn trả một lần cho cả nền tảng, không mua lẻ từng công cụ.",
+  },
   {
     q: "Dùng miễn phí được bao nhiêu?",
     a: "Dữ liệu mẫu xem thoải mái, không giới hạn. Với số liệu của chính bạn, bạn được xem trọn kết luận 3 lần miễn phí. Sau đó nâng cấp Pro để dùng không giới hạn, từ 149.900đ/tháng.",
   },
   {
     q: "Sao tôi không tự hỏi ChatGPT hay Claude cho rẻ?",
-    a: "Bạn hoàn toàn có thể hỏi. Nhưng AI chung chung đưa lý thuyết và câu “tuỳ trường hợp”, còn công cụ này đưa một quyết định từ số liệu thật của bạn, trong 2 phút, với khung câu hỏi không cho bạn tự trấn an. Xem phần so sánh ngay phía trên bảng giá.",
+    a: "Bạn hoàn toàn có thể hỏi. Nhưng AI chung chung đưa lý thuyết và câu “tuỳ trường hợp”, còn The Paradox Matrix đưa một quyết định từ số liệu thật của bạn, trong 2 phút, với khung câu hỏi không cho bạn tự trấn an. Xem phần so sánh ngay phía trên bảng giá.",
   },
   {
     q: "Tôi dốt toán, có dùng được không?",
@@ -191,8 +218,14 @@ export default async function Landing() {
       <Header />
       <main>
         <section className="relative overflow-hidden bg-night-950 text-white">
-          <div className="pm-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" aria-hidden="true" />
-          <div className="absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-accent-600/25 blur-[120px]" aria-hidden="true" />
+          <div
+            className="pm-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-accent-600/25 blur-[120px]"
+            aria-hidden="true"
+          />
           <div className="absolute -bottom-40 right-0 h-[360px] w-[480px] rounded-full bg-flame-500/10 blur-[120px]" aria-hidden="true" />
 
           <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 pb-14 pt-10 sm:px-6 sm:pt-16 lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:pb-20">
@@ -208,15 +241,17 @@ export default async function Landing() {
                 Ưu đãi Sáng lập: trọn đời {vnd(founder.plan.price)},{" "}
                 {founder.earlyLeft ? `còn ${founder.earlyLeft} suất` : `chỉ ${FOUNDER_SEATS} suất`} →
               </Link>
-              <p className="mt-5 text-sm font-medium text-accent-300">Dành cho chủ doanh nghiệp, chủ shop và người kinh doanh một mình</p>
+              <p className="mt-5 text-sm font-medium text-accent-300">
+                Nền tảng ra quyết định bằng con số cho chủ doanh nghiệp, chủ shop và người kinh doanh một mình
+              </p>
               <h1 className="mt-3 text-[2.15rem] font-bold leading-[1.12] tracking-tight sm:text-5xl lg:text-[3.4rem]">
                 Trực giác của bạn đang âm thầm{" "}
-                <span className="bg-gradient-to-r from-flame-400 to-flame-500 bg-clip-text text-transparent">rút tiền khỏi túi bạn</span> mỗi
-                tháng.
+                <span className="bg-gradient-to-r from-flame-400 to-flame-500 bg-clip-text text-transparent">rút tiền khỏi túi bạn</span>{" "}
+                mỗi tháng.
               </h1>
               <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg lg:mx-0">
-                Đổ thêm tiền vào thứ đang lỗ. Tin một bản báo cáo đang nói dối. Bỏ cuộc đúng lúc sắp có kết quả. Người giỏi nghề vẫn mắc cả 3.
-                Trả lời 5 câu hỏi, 2 phút sau bạn biết mình đang mất tiền ở đâu.
+                Đổ thêm tiền vào thứ đang lỗ. Tin một bản báo cáo đang nói dối. Bỏ cuộc đúng lúc sắp có kết quả. Người giỏi nghề vẫn mắc cả
+                3. Trả lời 5 câu hỏi, 2 phút sau bạn biết mình đang mất tiền ở đâu.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                 <Link
@@ -276,14 +311,17 @@ export default async function Landing() {
           </h2>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {TRAPS.map((t) => (
-              <article key={t.tag} className="overflow-hidden rounded-2xl border border-ink-200 bg-white shadow-card transition hover:-translate-y-1 hover:shadow-lg">
+              <article
+                key={t.tag}
+                className="overflow-hidden rounded-2xl border border-ink-200 bg-white shadow-card transition hover:-translate-y-1 hover:shadow-lg"
+              >
                 <div className="border-b border-ink-100 bg-gradient-to-b from-accent-50 to-white px-6 pb-2 pt-5">
                   <TrapArt kind={t.art} />
                 </div>
                 <div className="p-6 pt-4">
-                <p className="font-mono text-xs font-semibold text-flame-600">{t.tag}</p>
-                <h3 className="mt-2 text-lg font-semibold tracking-tight text-ink-900">{t.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-600">{t.body}</p>
+                  <p className="font-mono text-xs font-semibold text-flame-600">{t.tag}</p>
+                  <h3 className="mt-2 text-lg font-semibold tracking-tight text-ink-900">{t.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-600">{t.body}</p>
                 </div>
               </article>
             ))}
@@ -379,6 +417,28 @@ export default async function Landing() {
           </div>
         </section>
 
+        <section className="border-b border-ink-200 bg-white">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+            <p className="text-center font-mono text-xs text-accent-600">Không phải một công cụ lẻ</p>
+            <h2 className="mx-auto mt-3 max-w-3xl text-center text-2xl font-semibold tracking-tight text-ink-900 sm:text-3xl">
+              Một nền tảng để mọi quyết định tiền bạc đi qua con số trước
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-center text-sm leading-relaxed text-ink-600">
+              Một công cụ giải một bài toán rồi thôi. The Paradox Matrix là nơi bạn quay lại mỗi khi phải quyết định: có công cụ, có cách
+              nghĩ, có người đồng hành và có cộng đồng.
+            </p>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {PLATFORM.map((p) => (
+                <div key={p.title} className="rounded-2xl border border-ink-200 bg-ink-50/60 p-6">
+                  <p className="font-mono text-xs font-semibold text-accent-600">{p.tag}</p>
+                  <h3 className="mt-2 font-semibold leading-snug text-ink-900">{p.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-600">{p.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <h2 className="text-center text-2xl font-semibold tracking-tight text-ink-900 sm:text-3xl">
             Vì sao bạn có thể tin kết luận của nó?
@@ -428,7 +488,10 @@ export default async function Landing() {
         </section>
 
         <section id="sao-khong-hoi-ai" className="relative scroll-mt-20 overflow-hidden bg-night-950 text-white">
-          <div className="pm-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" aria-hidden="true" />
+          <div
+            className="pm-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]"
+            aria-hidden="true"
+          />
           <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
             <p className="text-center font-mono text-xs text-ink-300">Câu hỏi ai cũng nghĩ tới</p>
             <h2 className="mx-auto mt-3 max-w-3xl text-center text-2xl font-semibold tracking-tight sm:text-4xl">
@@ -468,7 +531,10 @@ export default async function Landing() {
               <span className="text-flame-400">The Paradox Matrix dùng để cứu tiền khi doanh nghiệp gặp bão.</span>
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Link href="#kiem-tra" className="rounded-xl bg-flame-500 px-6 py-3 text-sm font-bold text-night-950 shadow-flame hover:bg-flame-400">
+              <Link
+                href="#kiem-tra"
+                className="rounded-xl bg-flame-500 px-6 py-3 text-sm font-bold text-night-950 shadow-flame hover:bg-flame-400"
+              >
                 Thử miễn phí với số liệu của bạn
               </Link>
               <Link
@@ -516,7 +582,10 @@ export default async function Landing() {
           </div>
           <div className="relative mt-14 overflow-hidden rounded-3xl bg-night-950 px-6 py-12 text-center">
             <div className="pm-grid absolute inset-0" aria-hidden="true" />
-            <div className="absolute -top-24 left-1/2 h-48 w-96 -translate-x-1/2 rounded-full bg-accent-600/30 blur-3xl" aria-hidden="true" />
+            <div
+              className="absolute -top-24 left-1/2 h-48 w-96 -translate-x-1/2 rounded-full bg-accent-600/30 blur-3xl"
+              aria-hidden="true"
+            />
             <p className="relative text-2xl font-bold tracking-tight text-white sm:text-3xl">
               Bạn có thể tiếp tục đoán. Hoặc bạn có thể <span className="text-flame-400">biết.</span>
             </p>
