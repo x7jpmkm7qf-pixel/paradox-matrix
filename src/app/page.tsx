@@ -161,7 +161,7 @@ const PLATFORM = [
   {
     tag: "Con người",
     title: "Có người thật đồng hành",
-    body: "Gói Pro năm và Sáng lập có buổi 1:1 với huấn luyện viên để cùng soi một quyết định thật của bạn, không chỉ đọc kết quả một mình.",
+    body: "Gói Pro năm và Sáng lập có buổi 1:1 với huấn luyện viên để cùng soi một quyết định thật của bạn. Thành viên Sáng lập còn được Zalo trực tiếp với anh Sơn, người sáng lập, để được cố vấn.",
   },
   {
     tag: "Cộng đồng",
