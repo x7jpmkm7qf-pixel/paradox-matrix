@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { HowItComputes } from "./HowItComputes";
 
 export const metadata: Metadata = {
   title: "Hiểu thêm về 3 cái bẫy · The Paradox Matrix",
@@ -107,9 +108,14 @@ export default function LearnMorePage() {
                 tôi giấu hết công thức đi. Bạn chỉ nhập con số mình đã có, máy tính xong và trả lời bằng một câu tiếng Việt: nên làm gì, nên
                 dừng gì.
               </p>
+              <a href="#ben-trong" className="mt-3 inline-block text-sm font-semibold text-ink-900 underline underline-offset-2">
+                Xem máy tính từng bước thế nào →
+              </a>
             </div>
           </div>
         </section>
+
+        <HowItComputes />
 
         {TRAPS.map((t, i) => (
           <section key={t.id} id={t.id} className={`scroll-mt-20 ${i % 2 ? "bg-ink-50" : ""}`}>
@@ -149,9 +155,14 @@ export default function LearnMorePage() {
                 <div className="rounded-2xl border border-accent-200 bg-accent-50/60 p-6">
                   <h3 className="text-xs font-semibold uppercase tracking-wide text-accent-700">The Paradox Matrix giúp bạn thế nào</h3>
                   <p className="mt-3 text-sm leading-relaxed text-ink-700">{t.tool}</p>
-                  <Link href={t.href} className="mt-4 inline-block text-sm font-semibold text-ink-900 underline underline-offset-2">
-                    Thử với số liệu của bạn →
-                  </Link>
+                  <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
+                    <Link href={t.href} className="text-ink-900 underline underline-offset-2">
+                      Thử với số liệu của bạn →
+                    </Link>
+                    <a href={`#may-0${i + 1}`} className="text-accent-700 underline underline-offset-2">
+                      Xem cách máy tính
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
