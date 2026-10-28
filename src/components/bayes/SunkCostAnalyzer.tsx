@@ -9,6 +9,7 @@ import { VerdictGate } from "@/components/pro/VerdictGate";
 import { axisProps, chartColors, tooltipStyle } from "@/components/ui/chartTheme";
 import { evaluateDecision } from "@/lib/bayes";
 import { money, pct } from "@/lib/format";
+import { vndWords } from "@/lib/impact";
 
 interface SunkCostAnalyzerProps {
   posterior: number;
@@ -34,6 +35,14 @@ export function SunkCostAnalyzer({ posterior, sampleOdds }: SunkCostAnalyzerProp
   const decision = useMemo(
     () => evaluateDecision({ posterior, sunkCost, remainingCost, payoff, alternativeValue }),
     [posterior, sunkCost, remainingCost, payoff, alternativeValue],
+  );
+
+  // Inputs are in millions of VND; the gap is what picking the wrong option would cost.
+  const gap = Math.abs(decision.evContinue - decision.evStop) * 1_000_000;
+  const impact = useMemo(
+    () =>
+      gap >= 1_000_000 ? { vnd: gap, teaser: `Hai lựa chọn của bạn chênh nhau ${vndWords(gap)}. Hướng nào đúng?`, headline: "" } : null,
+    [gap],
   );
 
   const chartData = [
@@ -102,6 +111,7 @@ export function SunkCostAnalyzer({ posterior, sampleOdds }: SunkCostAnalyzerProp
             fingerprint={JSON.stringify([posterior, money4])}
             isSample={sampleOdds && JSON.stringify(money4) === JSON.stringify(SAMPLE)}
             summary={`${VERDICT_SUMMARY[decision.verdict]} (chi thêm ${money(remainingCost)}, đã chi ${money(sunkCost)})`}
+            impact={impact}
           >
             <div className="space-y-4">
               <VerdictAlert

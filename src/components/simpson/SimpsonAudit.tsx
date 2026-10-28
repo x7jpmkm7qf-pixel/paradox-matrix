@@ -77,6 +77,17 @@ export function SimpsonAudit() {
             fingerprint={JSON.stringify(rows)}
             isSample={SIMPSON_PRESETS.some((p) => JSON.stringify(p.rows) === JSON.stringify(rows))}
             summary={`${SEVERITY_SUMMARY[report.severity]} (${labelA} vs ${labelB}, ${metric})`}
+            impact={
+              report.severity === "paradox" || report.severity === "partial"
+                ? {
+                    teaser: "Chúng tôi thấy một chỗ con số tổng đang nói ngược với từng nhóm khách.",
+                    headline:
+                      report.severity === "paradox"
+                        ? "Bạn vừa tránh thưởng nhầm người: con số tổng đang nói ngược với mọi nhóm khách."
+                        : "Bạn vừa tránh quyết định dựa trên con số tổng dễ đánh lừa.",
+                  }
+                : null
+            }
           >
             <AuditFindings report={report} labelA={labelA || "A"} labelB={labelB || "B"} metric={metric || "Tỷ lệ"} />
           </VerdictGate>

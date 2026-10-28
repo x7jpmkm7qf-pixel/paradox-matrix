@@ -7,6 +7,8 @@ import { track } from "@/lib/pixel";
 import { ACCOUNTS_ON } from "@/lib/accounts";
 import { FREE_VERDICTS } from "@/lib/trial";
 import { AuthPanel } from "@/components/auth/AuthPanel";
+import { IMPACT_EVENT, readTotals, recordImpact, vndWords, type Impact, type ImpactTotals } from "@/lib/impact";
+import { PLANS } from "@/lib/plans";
 
 export { FREE_VERDICTS };
 
@@ -47,6 +49,8 @@ interface VerdictGateProps {
   isSample: boolean;
   /** One-line verdict, sent along with a Zalo lead. */
   summary: string;
+  /** What following this verdict is worth; null when there is nothing to flag. */
+  impact?: Impact | null;
   children: ReactNode;
 }
 
@@ -127,12 +131,24 @@ function useAccountGate(tool: string, fingerprint: string): Gate {
 const useGate = ACCOUNTS_ON ? useAccountGate : useLocalGate;
 
 /** Shows the verdict for Pro users and sample data; otherwise spends one of the free verdicts or asks to sign up or upgrade. */
-export function VerdictGate({ tool, fingerprint, isSample, summary, children }: VerdictGateProps) {
+export function VerdictGate({ tool, fingerprint, isSample, summary, impact = null, children }: VerdictGateProps) {
   const { isPro } = usePro();
   const gate = useGate(tool, fingerprint);
   const [busy, setBusy] = useState(false);
+  const revealed = Boolean(isPro || isSample || gate.unlockedHere);
 
-  if (isPro || isSample) return <>{children}</>;
+  useEffect(() => {
+    if (revealed && !isSample && impact) recordImpact(tool, fingerprint, impact);
+  }, [revealed, isSample, impact, tool, fingerprint]);
+
+  if (isPro || isSample) {
+    return (
+      <>
+        {impact && <ImpactBanner impact={impact} sample={isSample} />}
+        {children}
+      </>
+    );
+  }
   if (isPro === null || !gate.ready) return <Locked>{children}</Locked>;
 
   if (gate.signedOut) {
@@ -153,6 +169,7 @@ export function VerdictGate({ tool, fingerprint, isSample, summary, children }: 
   if (gate.unlockedHere) {
     return (
       <>
+        {impact && <ImpactBanner impact={impact} />}
         {children}
         {!gate.leadDone && <LeadPrompt tool={tool} summary={summary} onDone={gate.leadFinished} />}
       </>
@@ -170,26 +187,28 @@ export function VerdictGate({ tool, fingerprint, isSample, summary, children }: 
 
   return (
     <Locked
+      tall={left === 0}
       overlay={
         <Overlay>
           {left > 0 ? (
             <>
-              <p className="font-semibold text-ink-900">Kết luận cho số liệu của bạn đã sẵn sàng</p>
-              <p className="mt-1 text-xs leading-relaxed text-ink-600">
-                Bạn còn{" "}
-                <b>
-                  {left}/{FREE_VERDICTS} lượt
-                </b>{" "}
-                xem miễn phí. Mỗi bộ số mới tính 1 lượt, dữ liệu mẫu thì xem thoải mái.
-              </p>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-accent-600">Kết luận đã sẵn sàng</p>
+              {impact ? (
+                <p className="mt-2 text-lg font-semibold leading-snug tracking-tight text-ink-900">{impact.teaser}</p>
+              ) : (
+                <p className="mt-2 text-lg font-semibold leading-snug tracking-tight text-ink-900">Xem nên làm gì với số liệu của bạn</p>
+              )}
               <button
                 type="button"
                 onClick={unlock}
                 disabled={busy}
-                className="mt-4 w-full rounded-xl bg-ink-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-ink-800 disabled:opacity-60"
+                className="mt-4 w-full rounded-xl bg-ink-900 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-px hover:bg-ink-800 disabled:opacity-60"
               >
-                Xem kết luận
+                Xem kết luận →
               </button>
+              <p className="mt-2 text-xs text-ink-500">
+                Còn {left}/{FREE_VERDICTS} lượt miễn phí. Mỗi bộ số mới tính 1 lượt.
+              </p>
             </>
           ) : (
             <Paywall />
@@ -233,24 +252,89 @@ function Locked({ children, overlay, tall }: { children: ReactNode; overlay?: Re
   );
 }
 
+/** Running total of what revealed verdicts were worth, kept in this browser. */
+function useImpactTotals(): ImpactTotals {
+  const [totals, setTotals] = useState<ImpactTotals>({ vnd: 0, count: 0 });
+  useEffect(() => {
+    const refresh = () => setTotals(readTotals());
+    refresh();
+    window.addEventListener(IMPACT_EVENT, refresh);
+    return () => window.removeEventListener(IMPACT_EVENT, refresh);
+  }, []);
+  return totals;
+}
+
+function ImpactBanner({ impact, sample }: { impact: Impact; sample?: boolean }) {
+  const totals = useImpactTotals();
+  const showTotal = !sample && totals.count > 1;
+  return (
+    <div className="mb-4 overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-5 text-white shadow-sm">
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-emerald-100">
+        {sample ? "Ví dụ với số mẫu" : "Giá trị của kết luận này"}
+      </p>
+      {impact.vnd ? (
+        <>
+          <p className="mt-2 text-sm text-emerald-50">Làm theo kết luận này, bạn hơn</p>
+          <p className="text-3xl font-semibold tracking-tight sm:text-4xl">{vndWords(impact.vnd)}</p>
+          <p className="mt-1 text-sm text-emerald-50">so với chọn ngược lại.</p>
+        </>
+      ) : (
+        <p className="mt-2 text-lg font-semibold leading-snug">{impact.headline}</p>
+      )}
+      {showTotal && (
+        <p className="mt-4 border-t border-white/20 pt-3 text-xs text-emerald-50">
+          Cộng dồn {totals.count} lần kiểm tra:{" "}
+          <b className="text-white">{totals.vnd > 0 ? `${vndWords(totals.vnd)} giữ lại` : `${totals.count} cái bẫy đã tránh`}</b>
+        </p>
+      )}
+    </div>
+  );
+}
+
+const SIX_MONTHS = PLANS.find((p) => p.id === "pro-6m")!;
+
 function Paywall() {
   useEffect(() => track("ViewContent", { content_name: "Paywall: verdict" }), []);
+  const totals = useImpactTotals();
+  const share = totals.vnd > 0 ? (SIX_MONTHS.price / totals.vnd) * 100 : null;
+  const shareText = share === null || share > 50 ? null : share < 0.1 ? "chưa tới 0,1%" : `${share.toFixed(1).replace(".", ",")}%`;
+
   return (
-    <>
-      <p className="font-semibold text-ink-900">Bạn đã dùng hết {FREE_VERDICTS} lượt miễn phí</p>
-      <p className="mt-1 text-xs leading-relaxed text-ink-600">
-        Một quyết định sai tốn hàng chục triệu. Mở khoá để xem kết luận không giới hạn cho mọi quyết định tiếp theo.
+    <div className="-m-5 rounded-2xl bg-ink-900 p-6 text-left text-white">
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-amber-300">Đã dùng hết {FREE_VERDICTS} lượt miễn phí</p>
+      {totals.vnd > 0 ? (
+        <>
+          <p className="mt-3 text-sm text-ink-300">{totals.count} lần kiểm tra vừa giữ lại cho bạn</p>
+          <p className="text-4xl font-semibold tracking-tight text-emerald-400">{vndWords(totals.vnd)}</p>
+        </>
+      ) : totals.count > 0 ? (
+        <p className="mt-3 text-2xl font-semibold leading-tight">Bạn vừa tránh {totals.count} cái bẫy mất tiền.</p>
+      ) : (
+        <p className="mt-3 text-2xl font-semibold leading-tight">Một quyết định sai tốn hàng chục triệu.</p>
+      )}
+      <p className="mt-3 text-sm leading-relaxed text-ink-200">
+        Pro 6 tháng chỉ {SIX_MONTHS.price.toLocaleString("vi-VN")}đ
+        {shareText ? (
+          <>
+            , bằng <b className="text-white">{shareText}</b> con số đó
+          </>
+        ) : null}
+        . Quyết định tiếp theo, bạn định làm theo cảm giác?
       </p>
       <Link
         href="/bang-gia"
-        className="mt-4 block w-full rounded-xl bg-ink-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-ink-800"
+        className="mt-5 block w-full rounded-xl bg-amber-400 px-4 py-3 text-center text-sm font-bold text-ink-900 shadow-lg shadow-amber-500/20 transition hover:-translate-y-px hover:bg-amber-300"
       >
-        Mở khoá từ 678.000đ / 6 tháng
+        Mở khoá không giới hạn →
       </Link>
-      <Link href="/kich-hoat" className="mt-2 block text-xs text-ink-500 underline underline-offset-2 hover:text-ink-900">
+      <ul className="mt-4 space-y-1 text-xs text-ink-300">
+        <li>✓ Hoàn tiền 100% trong 7 ngày nếu thấy không đáng</li>
+        <li>✓ Chuyển khoản QR, mở khoá ngay sau vài giây</li>
+      </ul>
+      <Link href="/kich-hoat" className="mt-4 block text-center text-xs text-ink-400 underline underline-offset-2 hover:text-white">
         Đã mua rồi? Nhập mã đơn để mở khoá
       </Link>
-    </>
+    </div>
   );
 }
 
