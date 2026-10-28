@@ -4,7 +4,7 @@ import { SITE } from "./site";
 const FROM = process.env.MAIL_FROM || `${SITE.name} <no-reply@tamlyhocvn.club>`;
 
 /** Sends one email through Resend; in local dev without a key the link is printed instead. */
-async function send(to: string, subject: string, html: string, link: string) {
+async function send(to: string, subject: string, html: string, text: string, link: string) {
   const key = process.env.RESEND_API_KEY;
   if (!key) {
     if (process.env.NODE_ENV !== "production") return console.log(`[mail] ${to}: ${subject}\n${link}`);
@@ -13,7 +13,8 @@ async function send(to: string, subject: string, html: string, link: string) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: FROM, to, subject, html, reply_to: SITE.email }),
+    // A plain-text part next to the HTML is one of the things spam filters look for.
+    body: JSON.stringify({ from: FROM, to, subject, html, text, reply_to: SITE.email }),
   });
   if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`);
 }
@@ -48,6 +49,7 @@ export const sendConfirmEmail = (to: string, code: string, link: string) =>
       link,
       code,
     ),
+    `Mã xác nhận The Paradox Matrix của bạn: ${code}\n\nNhập mã này vào trang đang mở để xác nhận email. Mã có hiệu lực trong 1 giờ.\nHoặc mở đường dẫn: ${link}\n\nKhông phải bạn yêu cầu? Cứ bỏ qua email này.\nHỗ trợ Zalo ${SITE.zaloDisplay}`,
     link,
   );
 
@@ -61,5 +63,6 @@ export const sendResetEmail = (to: string, link: string) =>
       "Đặt mật khẩu mới",
       link,
     ),
+    `Bạn vừa yêu cầu đặt lại mật khẩu The Paradox Matrix.\n\nMở đường dẫn sau để chọn mật khẩu mới (hiệu lực 1 giờ):\n${link}\n\nKhông phải bạn yêu cầu? Cứ bỏ qua email này.\nHỗ trợ Zalo ${SITE.zaloDisplay}`,
     link,
   );

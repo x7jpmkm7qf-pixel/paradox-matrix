@@ -224,7 +224,7 @@ function SignUpPrompt() {
 
 function Locked({ children, overlay, tall }: { children: ReactNode; overlay?: ReactNode; tall?: boolean }) {
   return (
-    <div className={`relative ${tall ? "min-h-[30rem]" : "min-h-56"}`}>
+    <div className={`relative ${tall ? "min-h-[36rem]" : "min-h-56"}`}>
       <div aria-hidden className="pointer-events-none select-none blur-[6px]">
         {children}
       </div>
