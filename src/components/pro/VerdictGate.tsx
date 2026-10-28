@@ -245,7 +245,7 @@ function Paywall() {
         href="/bang-gia"
         className="mt-4 block w-full rounded-xl bg-ink-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-ink-800"
       >
-        Mở khoá từ 699.000đ / 6 tháng
+        Mở khoá từ 678.000đ / 6 tháng
       </Link>
       <Link href="/kich-hoat" className="mt-2 block text-xs text-ink-500 underline underline-offset-2 hover:text-ink-900">
         Đã mua rồi? Nhập mã đơn để mở khoá
