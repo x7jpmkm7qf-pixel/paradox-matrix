@@ -4,7 +4,7 @@ import { SITE } from "@/lib/site";
 export function Footer() {
   return (
     <footer className="border-t border-ink-200 bg-white print:hidden">
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 py-10 text-sm text-ink-500 sm:grid-cols-3 sm:px-6">
+      <div className="mx-auto grid max-w-7xl gap-6 px-4 py-10 text-sm text-ink-500 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         <div>
           <p className="font-semibold text-ink-900">{SITE.name}</p>
           <p className="mt-2 leading-relaxed">
@@ -14,6 +14,36 @@ export function Footer() {
             </a>
             . Mọi tính toán chạy ngay trên trình duyệt của bạn, số liệu không gửi đi đâu.
           </p>
+        </div>
+        <div>
+          <p className="font-semibold text-ink-900">Tìm hiểu</p>
+          <ul className="mt-2 space-y-1">
+            <li>
+              <Link href="/ve-chung-toi" className="hover:text-ink-900">
+                Về chúng tôi
+              </Link>
+            </li>
+            <li>
+              <Link href="/hieu-them" className="hover:text-ink-900">
+                Hiểu thêm về 3 cái bẫy
+              </Link>
+            </li>
+            <li>
+              <Link href="/app" className="hover:text-ink-900">
+                Dùng thử công cụ
+              </Link>
+            </li>
+            <li>
+              <a href={SITE.guideUrl} className="hover:text-ink-900">
+                Hướng dẫn sử dụng (PDF)
+              </a>
+            </li>
+            <li>
+              <a href={SITE.fanpageUrl} className="hover:text-ink-900">
+                Trang Facebook
+              </a>
+            </li>
+          </ul>
         </div>
         <div>
           <p className="font-semibold text-ink-900">Hỗ trợ</p>

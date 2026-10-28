@@ -13,6 +13,18 @@ export function Header() {
           <Link href="/app" className="rounded-lg px-2.5 py-1.5 text-ink-600 hover:bg-ink-100 hover:text-ink-900">
             Dùng thử
           </Link>
+          <Link
+            href="/hieu-them"
+            className="hidden rounded-lg px-2.5 py-1.5 text-ink-600 hover:bg-ink-100 hover:text-ink-900 md:inline-block"
+          >
+            Hiểu thêm
+          </Link>
+          <Link
+            href="/ve-chung-toi"
+            className="hidden rounded-lg px-2.5 py-1.5 text-ink-600 hover:bg-ink-100 hover:text-ink-900 md:inline-block"
+          >
+            Về chúng tôi
+          </Link>
           <Link href="/bang-gia" className="rounded-lg px-2.5 py-1.5 text-ink-600 hover:bg-ink-100 hover:text-ink-900">
             Bảng giá
           </Link>

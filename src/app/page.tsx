@@ -75,6 +75,38 @@ const CASES = [
   },
 ];
 
+const STEPS = [
+  ["Chọn điều bạn đang phân vân", "Nên chi tiếp hay dừng? Báo cáo này có đúng không? Bỏ hay trụ? Mỗi câu hỏi là một công cụ."],
+  ["Nhập vài con số bạn đã có", "Tiền đã chi, số đơn, số người theo dõi. Chưa có số? Mỗi công cụ có sẵn số mẫu để bạn thử trước."],
+  ["Đọc kết luận bằng tiếng Việt", "Ô xanh: làm tiếp. Ô đỏ: dừng lại nghĩ. Kèm con số cụ thể để bạn giải thích với cộng sự, với sếp."],
+];
+
+const FOR_WHO = [
+  "Chủ shop online đang chạy quảng cáo Facebook, TikTok",
+  "Chủ doanh nghiệp nhỏ có đội sales hoặc nhiều chi nhánh",
+  "Người làm nội dung, xây kênh, xây thương hiệu cá nhân",
+  "Quản lý phải duyệt ngân sách, thưởng phạt dựa trên báo cáo",
+];
+
+const NOT_FOR = [
+  "Bạn cần phần mềm kế toán, quản lý kho, bán hàng",
+  "Bạn muốn một công cụ tự chạy quảng cáo hộ mình",
+  "Bạn chỉ muốn nghe điều mình muốn nghe",
+];
+
+const TRUST = [
+  [
+    "Toán đã được kiểm chứng",
+    "Xác suất và thống kê mà ngân hàng, bác sĩ, nhà khoa học dùng hàng trăm năm, viết lại bằng tiếng Việt đời thường.",
+  ],
+  ["Số liệu không rời máy bạn", "Mọi phép tính chạy ngay trên trình duyệt. Chúng tôi không lưu, không xem số liệu kinh doanh của bạn."],
+  [
+    "Người làm ra cũng kinh doanh thật",
+    "Công cụ đóng gói từ chính bộ luật người sáng lập dùng để chạy quảng cáo và ra quyết định mỗi ngày.",
+  ],
+  ["Hoàn tiền 7 ngày", "Không chỉ ra được một chỗ bạn đang quyết định sai thì trả lại 100% tiền. Không hỏi lý do."],
+];
+
 const FAQ = [
   {
     q: "Tôi dốt toán, có dùng được không?",
@@ -87,6 +119,14 @@ const FAQ = [
   {
     q: "Tôi có kế toán rồi, cần gì cái này?",
     a: "Kế toán ghi lại chuyện đã xảy ra. Công cụ này giúp bạn quyết định chuyện sắp xảy ra.",
+  },
+  {
+    q: "Ai đứng sau The Paradox Matrix?",
+    a: "Anh Hán Văn Sơn, người sáng lập Pharmatech AS và hệ Tâm Lý Học VN. Công cụ được đóng gói từ chính cách anh ra quyết định kinh doanh mỗi ngày. Xem thêm ở trang Về chúng tôi.",
+  },
+  {
+    q: "Có cần cài đặt hay đăng ký tài khoản không?",
+    a: "Không. Mở trình duyệt là dùng được, trên máy tính hay điện thoại đều được. Khi nâng cấp Pro, bạn nhận một mã đơn để mở khoá trên máy khác.",
   },
   {
     q: "Thanh toán thế nào, bao lâu thì dùng được Pro?",
@@ -122,14 +162,17 @@ export default async function Landing() {
             Trực giác của bạn đang âm thầm rút tiền khỏi túi bạn mỗi tháng.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-ink-600 sm:text-lg">
-            Đổ thêm tiền vào thứ đang lỗ. Tin một bản báo cáo đang nói dối. Bỏ cuộc đúng lúc sắp có kết quả. Người giỏi nghề vẫn mắc cả 3. Trả
-            lời 5 câu hỏi, 2 phút sau bạn biết mình đang mất tiền ở đâu.
+            Đổ thêm tiền vào thứ đang lỗ. Tin một bản báo cáo đang nói dối. Bỏ cuộc đúng lúc sắp có kết quả. Người giỏi nghề vẫn mắc cả 3.
+            Trả lời 5 câu hỏi, 2 phút sau bạn biết mình đang mất tiền ở đâu.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="#kiem-tra" className="rounded-xl bg-ink-900 px-6 py-3 text-sm font-semibold text-white hover:bg-ink-800">
               Kiểm tra miễn phí: tôi đang mắc bẫy nào?
             </Link>
-            <Link href="#bang-gia" className="rounded-xl border border-ink-200 bg-white px-6 py-3 text-sm font-semibold text-ink-800 hover:bg-ink-50">
+            <Link
+              href="#bang-gia"
+              className="rounded-xl border border-ink-200 bg-white px-6 py-3 text-sm font-semibold text-ink-800 hover:bg-ink-50"
+            >
               Xem bảng giá
             </Link>
           </div>
@@ -161,6 +204,11 @@ export default async function Landing() {
           <p className="mt-8 text-center font-semibold text-ink-900">
             Cả 3 bẫy có chung một điểm: cảm giác của bạn thấy rất đúng. Đó chính là lý do chúng nguy hiểm.
           </p>
+          <p className="mt-3 text-center text-sm">
+            <Link href="/hieu-them" className="font-medium text-accent-700 underline underline-offset-2">
+              Đọc kỹ hơn: vì sao người giỏi vẫn mắc, và cách tự kiểm tra →
+            </Link>
+          </p>
         </section>
 
         <section id="kiem-tra" className="scroll-mt-20 border-y border-ink-200 bg-ink-50">
@@ -175,10 +223,12 @@ export default async function Landing() {
 
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-2xl font-semibold tracking-tight text-ink-900 sm:text-3xl">Một chiếc kính hiển vi cho quyết định của bạn.</h2>
+            <h2 className="text-2xl font-semibold tracking-tight text-ink-900 sm:text-3xl">
+              Một chiếc kính hiển vi cho quyết định của bạn.
+            </h2>
             <p className="mt-3 text-sm leading-relaxed text-ink-600 sm:text-base">
-              Không khoá học. Không lý thuyết. Không công thức phải nhớ. Bạn nhập con số kinh doanh thật, máy tính toán, rồi nói thẳng cho bạn
-              biết nên làm gì, nên dừng gì.
+              Không khoá học. Không lý thuyết. Không công thức phải nhớ. Bạn nhập con số kinh doanh thật, máy tính toán, rồi nói thẳng cho
+              bạn biết nên làm gì, nên dừng gì.
             </p>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -193,6 +243,76 @@ export default async function Landing() {
                 <p className="mt-4 text-sm font-semibold text-ink-900 group-hover:underline">Thử miễn phí →</p>
               </Link>
             ))}
+          </div>
+        </section>
+
+        <section className="border-y border-ink-200 bg-ink-50">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+            <h2 className="text-center text-2xl font-semibold tracking-tight text-ink-900 sm:text-3xl">Dùng thế nào? 3 bước, 5 phút.</h2>
+            <ol className="mt-10 grid gap-4 md:grid-cols-3">
+              {STEPS.map(([title, body], i) => (
+                <li key={title} className="rounded-2xl border border-ink-200 bg-white p-6">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink-900 text-sm font-semibold text-white">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-4 font-semibold text-ink-900">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-600">{body}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="rounded-2xl border border-ink-200 bg-white p-6">
+                <h3 className="font-semibold text-ink-900">Dành cho bạn nếu bạn là</h3>
+                <ul className="mt-3 space-y-2 text-sm text-ink-700">
+                  {FOR_WHO.map((f) => (
+                    <li key={f} className="flex gap-2">
+                      <span className="text-emerald-600">✓</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-ink-200 bg-white p-6">
+                <h3 className="font-semibold text-ink-900">Chưa phù hợp nếu</h3>
+                <ul className="mt-3 space-y-2 text-sm text-ink-700">
+                  {NOT_FOR.map((f) => (
+                    <li key={f} className="flex gap-2">
+                      <span className="text-ink-400">✕</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <h2 className="text-center text-2xl font-semibold tracking-tight text-ink-900 sm:text-3xl">
+            Vì sao bạn có thể tin kết luận của nó?
+          </h2>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {TRUST.map(([title, body]) => (
+              <div key={title} className="rounded-2xl border border-ink-200 bg-white p-6">
+                <h3 className="font-semibold text-ink-900">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-600">{body}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-col items-start gap-4 rounded-2xl bg-ink-900 p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-8">
+            <div className="max-w-2xl">
+              <p className="text-xs font-semibold uppercase tracking-wide text-ink-300">Người đứng sau</p>
+              <p className="mt-2 text-lg font-semibold leading-snug">
+                Hán Văn Sơn, sáng lập Pharmatech AS và hệ Tâm Lý Học VN. Hai lần làm chủ, một bài học: tiền mất nhiều nhất ở những quyết
+                định nghe rất hợp lý.
+              </p>
+            </div>
+            <Link
+              href="/ve-chung-toi"
+              className="shrink-0 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-ink-900 hover:bg-ink-100"
+            >
+              Đọc câu chuyện →
+            </Link>
           </div>
         </section>
 
@@ -250,7 +370,10 @@ export default async function Landing() {
           </div>
           <div className="mt-14 text-center">
             <p className="text-2xl font-semibold tracking-tight text-ink-900">Bạn có thể tiếp tục đoán. Hoặc bạn có thể biết.</p>
-            <Link href="#kiem-tra" className="mt-6 inline-block rounded-xl bg-ink-900 px-6 py-3 text-sm font-semibold text-white hover:bg-ink-800">
+            <Link
+              href="#kiem-tra"
+              className="mt-6 inline-block rounded-xl bg-ink-900 px-6 py-3 text-sm font-semibold text-white hover:bg-ink-800"
+            >
               Kiểm tra miễn phí ngay
             </Link>
           </div>
