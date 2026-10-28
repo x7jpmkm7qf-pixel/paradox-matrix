@@ -219,6 +219,7 @@ Bật khi có đủ biến môi trường; thiếu thì web chạy như cũ (Pro
 | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `POSTGRES_URL` | Vercel → Storage → Supabase (tự điền) |
 | `RESEND_API_KEY` | resend.com, sau khi xác minh tên miền gửi thư |
+| `NEXT_PUBLIC_GOOGLE_LOGIN=1` | Bật nút "Tiếp tục với Google" sau khi bật Google trong Supabase (Authentication → Providers) |
 | `MAIL_FROM` (tuỳ chọn) | Mặc định `The Paradox Matrix <no-reply@tamlyhocvn.club>` |
 
 - Email xác nhận (mã 6 số + nút bấm) và đặt lại mật khẩu do app tự gửi qua Resend (mẫu tiếng Việt trong `src/lib/mail.ts`), không cần cấu hình email trong Supabase.
