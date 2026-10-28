@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { SITE } from "@/lib/site";
 import { useSearchParams } from "next/navigation";
 import { vnd, type Plan, type PlanId } from "@/lib/plans";
 import { usePro } from "@/components/pro/ProProvider";
@@ -133,6 +134,13 @@ export function Checkout({ plans }: { plans: Plan[] }) {
         <Link href="/app" className="mt-6 inline-block rounded-xl bg-ink-900 px-6 py-3 text-sm font-semibold text-white hover:bg-ink-800">
           Vào dùng Pro ngay
         </Link>
+        <a
+          href={SITE.guideUrl}
+          download
+          className="mt-3 block text-sm font-medium text-accent-700 underline underline-offset-2 hover:text-accent-800"
+        >
+          Tải hướng dẫn sử dụng (PDF)
+        </a>
       </div>
     );
   }

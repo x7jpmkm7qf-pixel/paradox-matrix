@@ -7,6 +7,7 @@ import { SimpsonAudit } from "@/components/simpson/SimpsonAudit";
 import { ExponentialSimulator } from "@/components/exponential/ExponentialSimulator";
 import { MODULES, type ModuleId } from "@/lib/modules";
 import { ProButton } from "@/components/pro/ProButton";
+import { SITE } from "@/lib/site";
 
 const isModuleId = (v: string): v is ModuleId => MODULES.some((m) => m.id === v);
 
@@ -34,7 +35,10 @@ export function Dashboard() {
   return (
     <div className="space-y-8">
       <p className="text-sm text-ink-600 print:hidden">
-        Chọn bẫy bạn muốn kiểm tra. Mỗi công cụ đã có sẵn số liệu mẫu, bạn chỉ cần thay bằng số của mình.
+        Chọn bẫy bạn muốn kiểm tra. Mỗi công cụ đã có sẵn số liệu mẫu, bạn chỉ cần thay bằng số của mình.{" "}
+        <a href={SITE.guideUrl} download className="font-medium text-accent-700 underline underline-offset-2 hover:text-accent-800">
+          Tải hướng dẫn chi tiết (PDF)
+        </a>
       </p>
       <div className="print:hidden">
         <ModuleNav active={active} onSelect={select} />
