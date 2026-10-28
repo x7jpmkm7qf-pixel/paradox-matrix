@@ -8,6 +8,8 @@ import { useSearchParams } from "next/navigation";
 import { vnd, type Plan, type PlanId } from "@/lib/plans";
 import { usePro } from "@/components/pro/ProProvider";
 import { track } from "@/lib/pixel";
+import { ACCOUNTS_ON } from "@/lib/accounts";
+import { AuthPanel } from "@/components/auth/AuthPanel";
 
 interface Order {
   code: string;
@@ -44,7 +46,7 @@ const savePending = (order: Order | null) => {
 export function Checkout({ plans }: { plans: Plan[] }) {
   const params = useSearchParams();
   const findPlan = (id: string | null | undefined) => plans.find((p) => p.id === id);
-  const { activate } = usePro();
+  const { activate, email, isPro } = usePro();
   const [planId, setPlanId] = useState<PlanId>(() => findPlan(params.get("goi"))?.id ?? "pro-year");
   const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -126,7 +128,11 @@ export function Checkout({ plans }: { plans: Plan[] }) {
       <div className="rounded-2xl border border-emerald-200 bg-white p-8 text-center shadow-card">
         <p className="text-4xl">🎉</p>
         <h1 className="mt-3 text-2xl font-semibold text-ink-900">Đã nhận thanh toán. Pro đã được mở khóa!</h1>
-        <p className="mt-2 text-sm text-ink-600">Máy này đã được kích hoạt. Hãy lưu mã đơn dưới đây để kích hoạt trên máy khác.</p>
+        <p className="mt-2 text-sm text-ink-600">
+          {email
+            ? `Pro đã gắn vào tài khoản ${email}, đăng nhập trên máy nào cũng dùng được. Bạn lưu mã đơn dưới đây để đối chiếu khi cần.`
+            : "Máy này đã được kích hoạt. Hãy lưu mã đơn dưới đây để kích hoạt trên máy khác."}
+        </p>
         <div className="mx-auto mt-5 max-w-sm rounded-xl bg-ink-50 p-4">
           <p className="text-xs text-ink-500">Mã đơn của bạn</p>
           <p className="mt-1 font-mono text-xl font-semibold tracking-wider text-ink-900">{paid.code}</p>
@@ -197,7 +203,14 @@ export function Checkout({ plans }: { plans: Plan[] }) {
       </div>
 
       <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
-        {!order ? (
+        {!order && ACCOUNTS_ON && isPro !== null && !email ? (
+          <div className="py-2">
+            <p className="mb-4 rounded-lg bg-accent-50 px-3 py-2 text-xs leading-relaxed text-ink-700">
+              Tạo tài khoản (hoặc đăng nhập) trước khi thanh toán, để gói Pro gắn vào tài khoản và dùng được trên mọi máy.
+            </p>
+            <AuthPanel mode="signup" compact />
+          </div>
+        ) : !order ? (
           <div className="flex h-full flex-col items-center justify-center py-8 text-center">
             <p className="text-sm text-ink-600">Bạn chọn</p>
             <p className="mt-1 text-2xl font-semibold text-ink-900">

@@ -210,3 +210,18 @@ Ba kịch bản mẫu: kênh nội dung (người theo dõi/tuần), thói quen 
 ## 7. Giấy phép
 
 Sử dụng tự do cho mục đích cá nhân và thương mại.
+
+## 8. Tài khoản (đăng ký, xác nhận email, đăng nhập)
+
+Bật khi có đủ biến môi trường; thiếu thì web chạy như cũ (Pro và lượt dùng thử lưu trên trình duyệt).
+
+| Biến | Lấy ở đâu |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `POSTGRES_URL` | Vercel → Storage → Supabase (tự điền) |
+| `RESEND_API_KEY` | resend.com, sau khi xác minh tên miền gửi thư |
+| `MAIL_FROM` (tuỳ chọn) | Mặc định `The Paradox Matrix <no-reply@tamlyhocvn.club>` |
+
+- Email xác nhận (mã 6 số + nút bấm) và đặt lại mật khẩu do app tự gửi qua Resend (mẫu tiếng Việt trong `src/lib/mail.ts`), không cần cấu hình email trong Supabase.
+- Bảng `pm_accounts` (lượt dùng thử) và `pm_licenses` (gói đã mua, mỗi mã đơn gắn một tài khoản) tự tạo ở lần gọi đầu (`src/lib/db.ts`).
+- Khách xem dữ liệu mẫu không cần đăng nhập; xem kết luận với số liệu riêng hoặc thanh toán thì cần tài khoản.
+- Khách cũ có Pro lưu trên trình duyệt: lần đầu đăng nhập, Pro tự chuyển vào tài khoản.
