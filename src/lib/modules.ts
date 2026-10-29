@@ -46,9 +46,9 @@ export const MODULES: ModuleMeta[] = [
     description:
       "Nhập con số hiện tại và tốc độ tăng của bạn. Công cụ cho thấy bao giờ kết quả bật lên, để bạn không bỏ cuộc ngay trước lúc đó.",
     steps: [
-      "Bấm chọn ví dụ gần với bạn (Kênh nội dung, Thói quen, Doanh thu), rồi nhập con số hiện tại.",
-      "Kéo thanh tốc độ tăng mỗi kỳ, và thanh tuần bạn định bỏ cuộc.",
-      "Xem ô màu cuối trang: nếu bạn định bỏ trước Điểm bùng phát, bạn đang bỏ quá sớm.",
+      "Bấm chọn ví dụ gần với bạn (Xây kênh, Luyện kỹ năng, Doanh thu hàng tháng), rồi sửa con số của bạn.",
+      "Kéo thanh % tăng mỗi kỳ, và thanh lúc bạn hay nản muốn dừng.",
+      "Xem ô màu cuối trang: nếu bạn định dừng trước lúc bắt đầu lời, bạn đang bỏ quá sớm.",
     ],
   },
 ];

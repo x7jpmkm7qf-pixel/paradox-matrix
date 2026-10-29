@@ -1,7 +1,7 @@
 "use client";
 
 interface SegmentedProps<T extends string> {
-  options: { value: T; label: string }[];
+  options: { value: T; label: string; title?: string }[];
   value: T;
   onChange: (value: T) => void;
   ariaLabel: string;
@@ -16,6 +16,7 @@ export function Segmented<T extends string>({ options, value, onChange, ariaLabe
           type="button"
           role="radio"
           aria-checked={value === o.value}
+          title={o.title}
           onClick={() => onChange(o.value)}
           className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
             value === o.value ? "bg-white text-ink-900 shadow-sm" : "text-ink-500 hover:text-ink-800"
