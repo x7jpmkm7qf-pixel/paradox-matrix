@@ -29,6 +29,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/ung-dung" className="hover:text-ink-900">
+                Động cơ Nghịch lý Chiến lược
+              </Link>
+            </li>
+            <li>
               <Link href="/app" className="hover:text-ink-900">
                 Dùng thử công cụ
               </Link>
