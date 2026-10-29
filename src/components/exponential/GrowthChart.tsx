@@ -28,13 +28,15 @@ interface GrowthChartProps {
 }
 
 const SERIES_LABELS: Record<string, string> = {
-  exponential: "Thực tế (tăng dồn)",
-  linear: "Mức bạn mong đợi",
-  decline: "Kịch bản giảm dần",
-  valley: "Thung lũng thất vọng",
+  exponential: "Kết quả thật (cộng dồn)",
+  linear: "Mức bạn tưởng tượng (tăng đều)",
+  decline: "Nếu mỗi kỳ tụt lùi",
+  valley: "Đoạn “làm mãi chưa thấy gì”",
 };
 
 export function GrowthChart({ data, tippingPoint, tippingValue, quitPoint, periodLabel, logScale, showDecline }: GrowthChartProps) {
+  // Each marker's label sits on the outer side of its line, so the two never overlap when the lines are close.
+  const quitFirst = tippingPoint === null || quitPoint <= tippingPoint;
   return (
     <div className="h-[380px]">
       <ResponsiveContainer width="100%" height="100%">
@@ -82,7 +84,7 @@ export function GrowthChart({ data, tippingPoint, tippingValue, quitPoint, perio
               x={quitPoint}
               stroke={chartColors.danger}
               strokeDasharray="3 3"
-              label={{ value: "Thường bỏ cuộc", position: "insideTopLeft", fontSize: 11, fill: chartColors.danger }}
+              label={{ value: "Bạn định dừng", position: quitFirst ? "insideTopRight" : "insideTopLeft", fontSize: 11, fill: chartColors.danger }}
             />
           )}
           {tippingPoint !== null && (
@@ -90,7 +92,7 @@ export function GrowthChart({ data, tippingPoint, tippingValue, quitPoint, perio
               x={tippingPoint}
               stroke={chartColors.success}
               strokeDasharray="3 3"
-              label={{ value: "Điểm bùng phát", position: "insideTopRight", fontSize: 11, fill: chartColors.success }}
+              label={{ value: "Bắt đầu lời", position: quitFirst ? "insideTopLeft" : "insideTopRight", fontSize: 11, fill: chartColors.success }}
             />
           )}
           {tippingPoint !== null && tippingValue !== null && (
