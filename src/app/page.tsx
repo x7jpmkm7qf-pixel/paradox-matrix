@@ -7,6 +7,7 @@ import { HeroPreview } from "@/components/site/HeroPreview";
 import { TrapArt } from "@/components/site/TrapArt";
 import { MiniSim } from "@/components/site/MiniSim";
 import { StickyFounderCta } from "@/components/site/StickyFounderCta";
+import { EngineTeaser } from "@/components/site/EngineTeaser";
 import { FOUNDER_SEATS, founderOffer, vnd } from "@/lib/plans";
 import { founderSeatsSold } from "@/lib/sepay";
 
@@ -280,6 +281,12 @@ export default async function Landing() {
                   </li>
                 ))}
               </ul>
+              <Link
+                href="#thuc-chien"
+                className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-flame-300 underline decoration-flame-500/40 underline-offset-4 hover:text-flame-400"
+              >
+                Mới: 6 nghịch lý áp dụng ngay cho shop nhỏ, đội ngũ và lãnh đạo →
+              </Link>
               <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-500">3 câu hỏi đáng tiền nhất</p>
               <div className="mt-3 flex flex-wrap justify-center gap-2 lg:justify-start">
                 {QUESTIONS.map(([n, q, href]) => (
@@ -351,6 +358,8 @@ export default async function Landing() {
             </div>
           </div>
         </section>
+
+        <EngineTeaser />
 
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-3xl text-center">
