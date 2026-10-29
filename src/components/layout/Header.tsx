@@ -5,6 +5,7 @@ import { AccountLink } from "@/components/auth/AccountLink";
 const NAV = [
   { href: "/app", label: "Dùng thử", show: "" },
   { href: "/hieu-them", label: "Hiểu thêm", show: "hidden md:inline-block" },
+  { href: "/ung-dung", label: "Thực chiến", show: "hidden lg:inline-block" },
   { href: "/ve-chung-toi", label: "Về chúng tôi", show: "hidden md:inline-block" },
   // "Nâng cấp Pro" already leads to pricing, so phones keep room for "Đăng nhập".
   { href: "/bang-gia", label: "Bảng giá", show: "hidden sm:inline-block" },
